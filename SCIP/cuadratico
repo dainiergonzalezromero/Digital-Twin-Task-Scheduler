@@ -1,0 +1,9 @@
+set limits time 700
+set limits gap 0.03
+read proof.lp
+optimize
+display solution status
+display solution objective
+display solution variables
+write solution solucion.sol
+quit

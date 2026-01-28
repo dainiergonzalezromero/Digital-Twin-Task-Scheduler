@@ -1,0 +1,35 @@
+# =========================
+# RUN FILE – DIGITAL TWIN
+# =========================
+
+reset;
+
+# -------------------------
+# Cargar modelo y datos
+# -------------------------
+model servers_and_tasks.mod;
+data  datos2.dat;
+
+# -------------------------
+# Mostrar chequeos básicos
+# -------------------------
+print "Tasks =", card(Tasks);
+print "Servers =", card(Servers);
+print "Precedences =", card(PRECEDENCES);
+
+# -------------------------
+# Solver
+# -------------------------
+option solver gurobi;
+option gurobi_options 'outlev=1';
+
+
+# -------------------------
+# Resolver
+# -------------------------
+solve;
+
+
+# -------------------------
+# Fin
+# -------------------------
