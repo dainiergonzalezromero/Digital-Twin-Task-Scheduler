@@ -30,7 +30,7 @@ while minimizing a multi-objective cost function under strict constraints.
 
 ## 🎯 Optimization Objective
 
-The problem is formulated as a **Mixed-Integer Linear Program (MILP)** with the following objective:
+The problem is formulated as a **Mixed-Integer Linear Program (MILP)** with the following objective: 
 
 $$
 \min \ \Bigg(
