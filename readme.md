@@ -60,12 +60,10 @@ A **greedy heuristic** is also proposed to efficiently approximate the MILP solu
 ```
 ├── AMPL/
 │   ├── servers_and_tasks.mod        # MILP model (AMPL)
-│   ├── datos_org.dat                # Example instance
 │   └── resol.run                    # AMPL run file
 │
 ├── SCIP/
 │   ├── modelo.zpl                   # MILP model in ZIMPL (SCIP)
-│   ├── generada.dat                 # Instance file
 │   └── paralelo.set                 # SCIP solver configuration
 │
 ├── Generar_Datos/
@@ -74,13 +72,7 @@ A **greedy heuristic** is also proposed to efficiently approximate the MILP solu
 │   └── dat/                         # Generated instances
 │
 ├── Heuristica/
-│   ├── Heuristica Min Fi/
-│   │   ├── main.cpp
-│   │   ├── heuristica.cpp
-│   │   ├── lector.cpp
-│   │   └── visualizador.cpp
-│   │
-│   └── Heuristica Min Fi + Costo/
+│   └── Heuristica_Min_Fi_Delta_Costo/
 │       ├── main.cpp
 │       ├── heuristica.cpp
 │       ├── datos.h
@@ -125,7 +117,8 @@ The exact formulation is implemented in **AMPL** and solved using **Gurobi**.
 
 ### 🧮 Execution
 ```bash
-ampl resol.run
+ampl
+include resol.run
 ```
 
 ---
@@ -152,12 +145,12 @@ Compile:
 
 ```bash
 cd Heuristica/Heuristica\ Min\ Fi\ +\ Costo/
-g++ -std=c++17 main.cpp heuristica.cpp lector.cpp visualizador.cpp -o scheduler
+g++ -std=c++17 *.cpp -o scheduler
 ```
 Run:
 
 ```bash
-./scheduler instance_20x22.dat --alfa=1 --beta=0 --gamma=1 --debug=true 
+./scheduler instance.dat --alfa=1 --beta=0 --gamma=1 --debug=true/false
 ```
 ---
 
