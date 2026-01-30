@@ -384,7 +384,6 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
     int mejorInicio = 0;
     int mejorCosto = 0;
     int mejorSumDelays = 0;
-    int is_beta_cero = (beta == 0) ? 0 : 1;
     
     double mejorValorObjetivo = numeric_limits<double>::max();
     
@@ -469,9 +468,8 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
                     procPredecesor < static_cast<int>(Delta.size()) && 
                     srv < static_cast<int>(Delta[procPredecesor].size())) {
                     
-                    int delay_beta = is_beta_cero * Delta[procPredecesor][srv]; // Caso que no importe el analisis de delay pues beta es 0
-                    int delay = Delta[procPredecesor][srv]; // Restantes casos
-                    int finPredecesorConDelay = f[predecesor] + delay_beta;
+                    int delay = Delta[procPredecesor][srv];
+                    int finPredecesorConDelay = f[predecesor] + delay;
                     
                     maxPredFinConDelay = max(maxPredFinConDelay, finPredecesorConDelay);
                     sumDelays += delay;
