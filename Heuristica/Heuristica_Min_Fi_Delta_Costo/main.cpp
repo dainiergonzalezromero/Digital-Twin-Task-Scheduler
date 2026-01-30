@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstdlib>  // Para atof
 #include <cstring>  // Para strcmp
+#include <fstream>  // Para archivos de salida
 
 #include "datos.h"
 #include "lector.h"
@@ -34,6 +35,44 @@ bool extraerValorBooleano(const string& param) {
     return false;
 }
 
+// Función para extraer string de parámetro
+string extraerStringParametro(const string& param) {
+    size_t pos = param.find('=');
+    if (pos != string::npos) {
+        return param.substr(pos + 1);
+    }
+    return "";
+}
+
+// Función para mostrar resultados en formato simple (CSV-like) en pantalla
+void mostrarResultadosSimple(const vector<int>& servidor, const vector<int>& s, const vector<int>& f) {
+    cout << "Servidor,Inicio,Fin" << endl;
+    for (size_t i = 0; i < servidor.size(); i++) {
+        cout  << servidor[i] << "," << s[i] << "," << f[i] << endl;
+    }
+}
+
+// Función para generar archivo CSV
+void generarArchivoCSV(const vector<int>& servidor, const vector<int>& s, const vector<int>& f, 
+                      const string& nombreArchivo) {
+    ofstream archivo(nombreArchivo);
+    if (!archivo.is_open()) {
+        cerr << "Error al crear archivo: " << nombreArchivo << endl;
+        return;
+    }
+    
+    // Encabezados
+    archivo << "Tarea,Servidor,Inicio,Fin" << endl;
+    
+    // Datos
+    for (size_t i = 0; i < servidor.size(); i++) {
+        archivo << i << "," << servidor[i] << "," << s[i] << "," << f[i] << endl;
+    }
+    
+    archivo.close();
+    cout << "Resultados exportados a: " << nombreArchivo << endl;
+}
+
 // Función para mostrar ayuda
 void mostrarAyuda(const char* nombrePrograma) {
     cout << "=========================================\n";
@@ -45,23 +84,22 @@ void mostrarAyuda(const char* nombrePrograma) {
     cout << "  --beta=<valor>    Peso para delays de comunicación (default: 1.0)\n";
     cout << "  --gamma=<valor>   Peso para costos de procesador (default: 1.0)\n";
     cout << "  --debug=<true/false>  Modo de depuración (default: false)\n";
-    cout << "  --help, -h       Muestra esta ayuda\n\n";
+    cout << "  --csv                    Mostrar resultados en formato CSV simple en pantalla\n";
+    cout << "  --output=<nombre>, -o=<nombre>  Exportar resultados a archivo CSV\n";
+    cout << "  --output=true/false             Activar/desactivar salida CSV\n";
+    cout << "  --help, -h               Muestra esta ayuda\n\n";
     cout << "EJEMPLOS:\n";
     cout << "  " << nombrePrograma << " instancia.dat\n";
     cout << "  " << nombrePrograma << " instancia.dat --alfa=1.0 --beta=0.5 --gamma=2.0\n";
     cout << "  " << nombrePrograma << " instancia.dat --debug=true --alfa=0.8\n";
+    cout << "  " << nombrePrograma << " instancia.dat --csv\n";
+    cout << "  " << nombrePrograma << " instancia.dat --output=resultados.csv\n";
+    cout << "  " << nombrePrograma << " instancia.dat -o=salida.csv\n";
+    cout << "  " << nombrePrograma << " instancia.dat --output=true  # Crea 'salida.csv'\n";
     cout << "=========================================\n";
 }
 
 int main(int argc, char* argv[]) {
-    // Verificar si se pide ayuda
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
-            mostrarAyuda(argv[0]);
-            return 0;
-        }
-    }
-    
     // Verificar argumentos mínimos
     if (argc < 2) {
         cerr << "Error: Se requiere archivo de instancia\n\n";
@@ -79,10 +117,12 @@ int main(int argc, char* argv[]) {
     double beta = 1.0;   // Peso para delays de comunicación
     double gamma = 1.0;  // Peso para costos de procesador
     bool debug = false;  // Modo debug
-    string archivoInstancia;
+    bool formatoCSV = false; // Mostrar en formato CSV simple en pantalla
+    bool generarCSV = false; // Generar archivo CSV
+    string nombreArchivoCSV = "salida.csv"; // Nombre por defecto para archivo CSV
     
     // Procesar argumentos
-    archivoInstancia = argv[1];
+    string archivoInstancia = argv[1];
     
     for (int i = 2; i < argc; i++) {
         string arg = argv[i];
@@ -99,6 +139,29 @@ int main(int argc, char* argv[]) {
         else if (arg.find("--debug=") == 0) {
             debug = extraerValorBooleano(arg);
         }
+        else if (arg == "--csv") {
+            formatoCSV = true;
+        }
+        else if (arg.find("--output=") == 0 || arg.find("-o=") == 0) {
+            string valor = extraerStringParametro(arg);
+            
+            // Verificar si es true/false o un nombre de archivo
+            transform(valor.begin(), valor.end(), valor.begin(), ::tolower);
+            if (valor == "true" || valor == "1" || valor == "yes") {
+                generarCSV = true;
+                // Usar nombre por defecto
+            } else if (valor == "false" || valor == "0" || valor == "no") {
+                generarCSV = false;
+            } else if (!valor.empty()) {
+                // Es un nombre de archivo
+                generarCSV = true;
+                nombreArchivoCSV = valor;
+            }
+        }
+        else if (arg == "--help" || arg == "-h") {
+            mostrarAyuda(argv[0]);
+            return 0;
+        }
         else {
             cerr << "Advertencia: Parámetro desconocido '" << arg << "' ignorado\n";
             cerr << "Use --help para ver las opciones disponibles\n";
@@ -111,18 +174,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    // Mostrar configuración
-    cout << "=========================================\n";
-    cout << "CONFIGURACIÓN DE PARÁMETROS:\n";
-    cout << "=========================================\n";
-    cout << "Archivo de instancia: " << archivoInstancia << endl;
-    cout << "Alfa  (peso tiempo finalización): " << alfa << endl;
-    cout << "Beta  (peso delays comunicación): " << beta << endl;
-    cout << "Gamma (peso costos procesador):   " << gamma << endl;
-    cout << "Modo debug:                       " << (debug ? "Activado" : "Desactivado") << endl;
-    cout << "=========================================\n\n";
-    
-    if (debug) {
+    // Cargar datos
+    if (debug && !formatoCSV) {
         cout << "[DEBUG] Cargando datos del archivo: " << archivoInstancia << endl;
     }
 
@@ -131,63 +184,87 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    if (debug) {
-        cout << "[DEBUG] Datos cargados correctamente\n";
-        cout << "[DEBUG] Procesadores: " << procesadores.size() << endl;
-        cout << "[DEBUG] Tareas: " << tareas.size() << endl;
-        cout << "[DEBUG] Precedencias: " << precedencias.size() << endl;
-        cout << "[DEBUG] Comunicaciones: " << comunicaciones.size() << endl;
-    }
-
-    // Mostrar resumen general si está en modo debug
-    if (debug) {
-        // Descomentar si quieres ver el resumen completo
-        // mostrarResumenGeneral(procesadores, tareas, precedencias, comunicaciones, archivoInstancia.c_str());
-    }
-
+    // Ejecutar heurística
     auto resultado = heuristicaGreedy(
         procesadores, tareas, precedencias, comunicaciones, alfa, beta, gamma, debug
     );
 
     if (!resultado.factible) {
-        cout << "\n❌ Solución NO factible\n";
+        if (formatoCSV) {
+            cout << "ERROR,Solución NO factible" << endl;
+        } else if (generarCSV) {
+            ofstream archivo(nombreArchivoCSV);
+            if (archivo.is_open()) {
+                archivo << "ERROR,Solución NO factible" << endl;
+                archivo.close();
+            }
+            cout << "Solución NO factible - Resultados en: " << nombreArchivoCSV << endl;
+        } else {
+            cout << "\n❌ Solución NO factible\n";
+        }
         return 0;
     }
   
-    // Calcular estadísticas
-    int suma_fi = 0;
-    int suma_costo = 0;
-    
-    cout << "\n✅ SOLUCIÓN HEURÍSTICA\n";
-    cout << "Parámetros: Alfa=" << alfa << ", Beta=" << beta << ", Gamma=" << gamma << "\n";
-    cout << "\nTAREAS ASIGNADAS:\n";
-    cout << "==================================================================\n";
-    
-    for (size_t i = 0; i < tareas.size(); i++) {
-        cout << "Task " << i << ": "
-             << "Server P" << resultado.servidor[i]
-             << " | Start: " << resultado.s[i]
-             << " | Finish: " << resultado.f[i] 
-             << " | Cost/unit: " << resultado.cost[i] << "\n";
-        suma_fi += resultado.f[i];
-        suma_costo += resultado.cost[i];
+    // Opciones de salida
+    if (formatoCSV) {
+        // Mostrar en pantalla en formato CSV simple
+        mostrarResultadosSimple(resultado.servidor, resultado.s, resultado.f);
+    } 
+    else if (generarCSV) {
+        // Generar archivo CSV
+        generarArchivoCSV(resultado.servidor, resultado.s, resultado.f, nombreArchivoCSV);
+        
+        // También mostrar resumen breve en pantalla
+        cout << "\n✅ SOLUCIÓN HEURÍSTICA GENERADA\n";
+        cout << "Resultados exportados a: " << nombreArchivoCSV << endl;
     }
+    else {
+        // Formato normal (detallado)
+        cout << "=========================================\n";
+        cout << "CONFIGURACIÓN DE PARÁMETROS:\n";
+        cout << "=========================================\n";
+        cout << "Archivo de instancia: " << archivoInstancia << endl;
+        cout << "Alfa  (peso tiempo finalización): " << alfa << endl;
+        cout << "Beta  (peso delays comunicación): " << beta << endl;
+        cout << "Gamma (peso costos procesador):   " << gamma << endl;
+        cout << "Modo debug:                       " << (debug ? "Activado" : "Desactivado") << endl;
+        cout << "=========================================\n\n";
+        
+        // Calcular estadísticas
+        int suma_fi = 0;
+        int suma_costo = 0;
+        
+        cout << "\n✅ SOLUCIÓN HEURÍSTICA\n";
+        cout << "Parámetros: Alfa=" << alfa << ", Beta=" << beta << ", Gamma=" << gamma << "\n";
+        cout << "\nTAREAS ASIGNADAS:\n";
+        cout << "==================================================================\n";
+        
+        for (size_t i = 0; i < tareas.size(); i++) {
+            cout << "Task " << i << ": "
+                 << "Server P" << resultado.servidor[i]
+                 << " | Start: " << resultado.s[i]
+                 << " | Finish: " << resultado.f[i] 
+                 << " | Cost/unit: " << resultado.cost[i] << "\n";
+            suma_fi += resultado.f[i];
+            suma_costo += resultado.cost[i];
+        }
 
-    // Calcular valor de la función objetivo completa
-    double valor_objetivo_total = alfa * suma_fi + 
-                                  beta * resultado.total_delays + 
-                                  gamma * suma_costo;
-    
-    cout << "\n=========================================\n";
-    cout << "   COMPONENTES DE LA FUNCIÓN OBJETIVO:\n";
-    cout << "=========================================\n";
-    cout << "Alfa * Σf_i = " << alfa << " * " << suma_fi << " = " << (alfa * suma_fi) << endl;
-    cout << "Beta * Σdelays = " << beta << " * " << resultado.total_delays << " = " << (beta * resultado.total_delays) << endl;
-    cout << "Gamma * ΣCost_s = " << gamma << " * " << suma_costo << " = " << (gamma * suma_costo) << endl;
-    
-    cout << "\nVALOR TOTAL DE LA FUNCIÓN OBJETIVO:\n";
-    cout << valor_objetivo_total << endl;
-    cout << "=========================================\n";
+        // Calcular valor de la función objetivo completa
+        double valor_objetivo_total = alfa * suma_fi + 
+                                      beta * resultado.total_delays + 
+                                      gamma * suma_costo;
+        
+        cout << "\n=========================================\n";
+        cout << "   COMPONENTES DE LA FUNCIÓN OBJETIVO:\n";
+        cout << "=========================================\n";
+        cout << "Alfa * Σf_i = " << alfa << " * " << suma_fi << " = " << (alfa * suma_fi) << endl;
+        cout << "Beta * Σdelays = " << beta << " * " << resultado.total_delays << " = " << (beta * resultado.total_delays) << endl;
+        cout << "Gamma * ΣCost_s = " << gamma << " * " << suma_costo << " = " << (gamma * suma_costo) << endl;
+        
+        cout << "\nVALOR TOTAL DE LA FUNCIÓN OBJETIVO:\n";
+        cout << valor_objetivo_total << endl;
+        cout << "=========================================\n";
+    }
 
     return 0;
 }
