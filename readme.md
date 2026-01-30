@@ -141,13 +141,13 @@ Processors are selected using a **lexicographic criterion**:
 2. Minimize server cost within a bounded time tolerance
 
 ### Compilation & Execution
-Compilation:
+#### Compilation:
 
 ```bash
 cd Heuristica/Heuristica_Min_Fi_Delta_Costo/
 g++ -std=c++17 *.cpp -o scheduler
 ```
-Execution:
+#### Execution:
 
 Basic usage:
 
@@ -155,7 +155,7 @@ Basic usage:
 ./scheduler <instance_file> [OPTIONS]
 ```
 
-Examples:
+#### Examples:
 ```bash
 # Run with default parameters
 ./scheduler instance.dat
@@ -170,7 +170,7 @@ Examples:
 ./scheduler instance.dat --alpha=1 --beta=0 --gamma=1 --debug=false
 ```
 
-Available Options:
+#### Available Options:
 ```bash
 --alpha=<value>    Weight for completion time (default: 1.0)
 --beta=<value>     Weight for communication delays (default: 1.0)
