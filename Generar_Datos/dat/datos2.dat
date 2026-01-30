@@ -6,9 +6,9 @@ param S := 30;
 param P := 7;
 
 param alpha := 1;
-param beta  := 1;
+param beta  := 0;
 param gamma := 1;
-param BigM  := 10000;
+param BigM  := 5000;
 
 # =========================
 # SERVIDORES (MEM, CPU, COST)

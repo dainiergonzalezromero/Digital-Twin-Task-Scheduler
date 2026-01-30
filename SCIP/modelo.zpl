@@ -26,9 +26,9 @@ var s[Tau] integer;
 var psi[Tau*Tau*P*P] binary;
 var delt[Tau*Tau*P] binary;
 param alfa := 1;
-param beta := 0;
+param beta := 1;
 param gamma:= 1;
-param bigM := 100000;
+param bigM := 10000;
 
 var finalizacion >= 0;
 var costo >= 0;
@@ -36,7 +36,7 @@ var comunicacion >= 0;
 
 #Objective
 minimize fobj:
- sum <i> in Tau: alfa*f[i]; #+ sum <p> in P: sum <i> in Tau: gamma * Cost[p]*L[i,p];# + beta * sum <h> in Tau: sum <i> in Tau: sum <u> in P: sum <v> in P: Delta[u,v] * psi[h,i,u,v];
+ sum <i> in Tau: alfa*f[i] + sum <p> in P: sum <i> in Tau: gamma * Cost[p]*L[i,p] + beta * sum <h> in Tau: sum <i> in Tau: sum <u> in P: sum <v> in P: Delta[u,v] * psi[h,i,u,v];
 
 #Constraints
 #subto epsilon: 
