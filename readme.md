@@ -141,17 +141,46 @@ Processors are selected using a **lexicographic criterion**:
 2. Minimize server cost within a bounded time tolerance
 
 ### Compilation & Execution
-Compile:
+Compilation:
 
 ```bash
-cd Heuristica/Heuristica\ Min\ Fi\ +\ Costo/
+cd Heuristica/Heuristica_Min_Fi_Delta_Costo/
 g++ -std=c++17 *.cpp -o scheduler
 ```
-Run:
+Execution:
+
+Basic usage:
 
 ```bash
-./scheduler instance.dat --alfa=1 --beta=0 --gamma=1 --debug=true/false
+./scheduler <instance_file> [OPTIONS]
 ```
+
+Examples:
+```bash
+# Run with default parameters
+./scheduler instance.dat
+
+# Run with custom weights (only completion time and processor costs)
+./scheduler instance.dat --alpha=1 --beta=0 --gamma=1
+
+# Run with debug mode enabled
+./scheduler instance.dat --alpha=1 --beta=0 --gamma=1 --debug=true
+
+# Run with debug mode disabled
+./scheduler instance.dat --alpha=1 --beta=0 --gamma=1 --debug=false
+```
+
+Available Options:
+```bash
+--alpha=<value>    Weight for completion time (default: 1.0)
+--beta=<value>     Weight for communication delays (default: 1.0)
+--gamma=<value>    Weight for processor costs (default: 1.0)
+--debug=<true/false>  Enable/disable debug mode (default: false)
+--csv              Display results in CSV format on screen
+--output=<filename> Export results to CSV file
+--help, -h         Display help message
+```
+
 ---
 
 ## 💰 Cost Modeling
