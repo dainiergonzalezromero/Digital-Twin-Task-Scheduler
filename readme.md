@@ -61,11 +61,6 @@ A **greedy heuristic** is also proposed to efficiently approximate the MILP solu
 ├── AMPL/
 │   ├── servers_and_tasks.mod        # MILP model (AMPL)
 │   └── resol.run                    # AMPL run file
-│
-├── SCIP/
-│   ├── modelo.zpl                   # MILP model in ZIMPL (SCIP)
-│   └── paralelo.set                 # SCIP solver configuration
-│
 ├── Generar_Datos/
 │   ├── generate.py                  # Synthetic instance generator
 │   ├── Leer_Graficar.py             # Instance visualization
@@ -79,6 +74,12 @@ A **greedy heuristic** is also proposed to efficiently approximate the MILP solu
 │       ├── lector.cpp
 │       ├── visualizador.cpp
 │       └── instance_*.dat
+│
+├── SCIP/
+│   ├── modelo.zpl                   # MILP model in ZIMPL (SCIP)
+│   ├── evaluacionDT.sh              # Script to run
+│   └── cuadratico                   # SCIP solver configuration
+
 ```
 
 ## 🧪 Instance Generation
