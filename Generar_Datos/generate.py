@@ -148,7 +148,6 @@ def Processors_Table(Number_Mist, Number_Edge, Number_Fog, Number_Processors, su
     proc_MEM = []
     proc_U = []
     proc_COST = []
-    print(sum_mem_tasks, max_mem_tasks)
 
     if flag_edge is False:
         den_edge_fog = Number_Edge + Number_Fog
@@ -160,11 +159,12 @@ def Processors_Table(Number_Mist, Number_Edge, Number_Fog, Number_Processors, su
         mem_tasks_fog_max = int((0.90 * sum_mem_tasks) / den_edge)
         mem_tasks_fog_min = int((0.85 * sum_mem_tasks) / den_edge)
     else:
-        mem_tasks_edge_max = max_mem_tasks * np.random.uniform(1,2)
-        mem_tasks_edge_min = max_mem_tasks * np.random.uniform(2,4)
+        mem_tasks_edge_max = max_mem_tasks * np.random.uniform(6,8)
+        mem_tasks_edge_min = max_mem_tasks * np.random.uniform(8,10)
 
-        mem_tasks_fog_max = max_mem_tasks * np.random.uniform(1,3)
-        mem_tasks_fog_min = max_mem_tasks * np.random.uniform(3,5)
+        mem_tasks_fog_max = max_mem_tasks * np.random.uniform(8,10)
+        mem_tasks_fog_min = max_mem_tasks * np.random.uniform(10,14)
+        print(f"mem_tasks_edge_max: {mem_tasks_edge_max}, mem_tasks_edge_min: {mem_tasks_edge_min}, mem_tasks_fog_max: {mem_tasks_fog_max}, mem_tasks_fog_min: {mem_tasks_fog_min}")
 
 
     for i in range(Number_Processors):
@@ -174,12 +174,14 @@ def Processors_Table(Number_Mist, Number_Edge, Number_Fog, Number_Processors, su
             proc_U.append(0.5)
             proc_COST.append(0)
         elif i < Number_Mist + Number_Edge:  # Edge
-            proc_MEM.append(round(np.random.uniform(mem_tasks_edge_min, mem_tasks_edge_max + 1),3))
+            mem_edge = int(np.random.uniform(mem_tasks_edge_min, mem_tasks_edge_max + 1))
+            proc_MEM.append(mem_edge)
             proc_U.append(1)
             proc_COST.append(np.random.randint(10,20))
 
         elif i < Number_Mist + Number_Edge + Number_Fog:  # Fog
-            proc_MEM.append(round(np.random.uniform(mem_tasks_fog_min, mem_tasks_fog_max + 1),3))
+            mem_fog = int(np.random.uniform(mem_tasks_fog_min, mem_tasks_fog_max + 1))
+            proc_MEM.append(mem_fog)
             proc_U.append(1)
             proc_COST.append(np.random.randint(25,30))
 
@@ -187,6 +189,8 @@ def Processors_Table(Number_Mist, Number_Edge, Number_Fog, Number_Processors, su
             proc_MEM.append(np.random.uniform(3,7)*sum_mem_tasks)
             proc_U.append(1)
             proc_COST.append(np.random.randint(40,50))
+    
+    print(f"mem_edge: {mem_edge}", f"mem_fog: {mem_fog}")
 
     # Crear el DataFrame con los datos
     Processors = pd.DataFrame({
