@@ -39,7 +39,7 @@ def calculate_values(Number_Tasks, Number_Sensors, Number_Actuators, Number_Edge
 
     # Calcular Edge si no se especificó
     if Number_Edge == 0:
-        upper_edge = max(2, Number_Mist // 4)
+        upper_edge = max(2, Number_Tasks // 8)
         Number_Edge = np.random.randint(1, upper_edge + 1)
 
     # Ajustar Fog según Edge si no se especificó explícitamente
