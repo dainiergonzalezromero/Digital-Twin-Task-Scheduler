@@ -1,0 +1,71 @@
+# =========================
+# RUN FILE – DIGITAL TWIN
+# =========================
+
+reset;
+
+# -------------------------
+# Cargar modelo y datos
+# -------------------------
+model servers_and_tasks.mod;
+data datos2.dat;
+
+# -------------------------
+# Mostrar chequeos básicos
+# -------------------------
+print "Tasks =", card(Tasks);
+print "Servers =", card(Servers);
+print "Precedences =", card(PRECEDENCES);
+
+# -------------------------
+# Solver
+# -------------------------
+option solver gurobi;
+option gurobi_options 'outlev=1';
+
+# -------------------------
+# Resolver
+# -------------------------
+solve;
+
+# -------------------------
+# MOSTRAR SOLUCIÓN
+# -------------------------
+
+print "";
+print "==================================";
+print "SOLUCIÓN - ASIGNACIÓN DE TAREAS";
+print "==================================";
+print "";
+
+# Mostrar asignación tarea-servidor
+for {i in Tasks} {
+    for {srv in Servers: L[i,srv] == 1} {
+        printf "Tarea %2d -> Servidor %2d\n", i, srv;
+    }
+}
+
+print "";
+print "==================================";
+print "TIEMPOS DE EJECUCIÓN";
+print "==================================";
+print "";
+
+# Mostrar tiempos de inicio y finalización
+for {i in Tasks} {
+    printf "Tarea %2d: Inicio = %4d, Fin = %4d, Duración = %3d\n", 
+           i, s[i], f[i], C[i];
+}
+
+
+
+print "";
+print "==================================";
+print "RESUMEN FINAL";
+print "==================================";
+print "";
+
+printf "Valor de la función objetivo: %f\n", Objective_Function;
+printf "Tiempo total ponderado (alpha): %f\n", alpha * sum {i in Tasks} f[i];
+printf "Delay total ponderado (beta): %f\n", beta * sum {(h,i) in PRECEDENCES, uu in Servers, vu in Servers} psi[h,i,uu,vu] * Delta[uu,vu];
+printf "Costo total ponderado (gamma): %f\n", gamma * sum{i in Tasks, srv in Servers} COST[srv] * L[i,srv];
