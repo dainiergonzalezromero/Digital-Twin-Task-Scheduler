@@ -10,7 +10,9 @@ struct Resultado {
     std::vector<int> f;          // tiempo fin
     std::vector<int> cost;       // costo por unidad de tiempo del procesador asignado
     int total_delays;         // suma total de todos los delays de comunicación
+    double tiempo_ejecucion_ms;
     bool factible;
+    
 };
 
 

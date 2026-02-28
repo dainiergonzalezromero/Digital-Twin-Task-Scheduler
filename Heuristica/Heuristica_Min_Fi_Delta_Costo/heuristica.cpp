@@ -9,6 +9,7 @@
 #include <vector>
 #include <cmath>
 #include <tuple>
+#include <chrono>
 
 using namespace std;
 
@@ -660,7 +661,8 @@ Resultado heuristicaGreedy(
     const double beta,
     const double gamma, 
     const bool debug = false
-) {
+) { 
+    auto tiempo_inicio = std::chrono::high_resolution_clock::now();
     size_t T = tareas.size();
     size_t P = procesadores.size();
     
@@ -840,6 +842,8 @@ Resultado heuristicaGreedy(
             return resultado_fallo;
         }
     }
+
+    
     
     // 7. CALCULAR SUMA TOTAL DE DELAYS
     double total_delays = 0.0;
@@ -849,6 +853,12 @@ Resultado heuristicaGreedy(
     
     // 8. VERIFICAR DEADLINES Y MOSTRAR RESULTADO
     bool todasCumplen = VerificarDeadlines(T, tareas, f, debug);
+    auto tiempo_fin = std::chrono::high_resolution_clock::now();
+    auto duracion = std::chrono::duration_cast<std::chrono::microseconds>(tiempo_fin - tiempo_inicio);
+    
+    double tiempo_segundos = duracion.count() / 1000000.0;
+    double tiempo_milisegundos = duracion.count() / 1000.0;
+
     MostrarAsignacionFinal(T, tareas, servidor, s, f, cost, debug);
     
     // 9. CREAR Y RETORNAR RESULTADO COMPLETO
@@ -858,7 +868,9 @@ Resultado heuristicaGreedy(
     resultado_final.f = f;
     resultado_final.cost = cost;
     resultado_final.total_delays = total_delays;
+    resultado_final.tiempo_ejecucion_ms = tiempo_milisegundos; 
     resultado_final.factible = todasCumplen;
+    
     
     return resultado_final;
 }
