@@ -10,8 +10,10 @@
 #include <cmath>
 #include <tuple>
 #include <chrono>
+#include <random> 
 
 using namespace std;
+
 
 vector<vector<int>> GenerarMatrizDelta(
     const vector<Comunicacion>& comunicaciones, size_t P
@@ -648,11 +650,10 @@ void MostrarAsignacionFinal(size_t T,
         }
     }
 }
-
 // ==========================
-// HEURÍSTICA PRINCIPAL
+// HEURÍSTICA PRINCIPAL CON REINTENTOS
 // ==========================
-Resultado heuristicaGreedy(
+Resultado heuristicaGreedyConReintentos(
     const vector<Procesador>& procesadores,
     const vector<Tarea>& tareas,
     const vector<Precedencia>& precedencias,
@@ -660,11 +661,69 @@ Resultado heuristicaGreedy(
     const double alfa,
     const double beta,
     const double gamma, 
-    const bool debug = false
+    const int max_intentos, 
+    const bool debug         
+) {
+    Resultado mejor_resultado;
+    mejor_resultado.factible = false;
+    mejor_resultado.total_delays = std::numeric_limits<double>::infinity();
+    
+    // Guardar estado inicial para reintentos
+    for (int intento = 0; intento < max_intentos; intento++) {
+        if (debug) {
+            cout << "\n\033[95m=========================================\033[0m" << endl;
+            cout << "\033[95m        INTENTO " << (intento + 1) << " DE " << max_intentos << "\033[0m" << endl;
+            cout << "\033[95m=========================================\033[0m" << endl;
+        }
+        
+        // En el primer intento usamos ordenamiento por deadline
+        // En intentos posteriores usamos selección aleatoria
+        bool usar_aleatorio = (intento > 0);
+        
+        Resultado resultado_actual = heuristicaGreedyInterna(
+            procesadores, tareas, precedencias, comunicaciones,
+            alfa, beta, gamma, usar_aleatorio, debug && (intento == 0) // Solo debug en primer intento
+        );
+        
+        if (resultado_actual.factible) {
+            if (resultado_actual.total_delays < mejor_resultado.total_delays) {
+                mejor_resultado = resultado_actual;
+                if (debug) {
+                    cout << "\033[92m[INTENTO " << (intento + 1) << "] Solución factible encontrada con delays: " 
+                         << resultado_actual.total_delays << "\033[0m" << endl;
+                }
+            }
+        } else {
+            if (debug) {
+                cout << "\033[93m[INTENTO " << (intento + 1) << "] No factible\033[0m" << endl;
+            }
+        }
+    }
+    
+    return mejor_resultado;
+}
+
+// ==========================
+// HEURÍSTICA INTERNA (MODIFICADA)
+// ==========================
+Resultado heuristicaGreedyInterna(
+    const vector<Procesador>& procesadores,
+    const vector<Tarea>& tareas,
+    const vector<Precedencia>& precedencias,
+    const vector<Comunicacion>& comunicaciones, 
+    const double alfa,
+    const double beta,
+    const double gamma, 
+    const bool usar_seleccion_aleatoria,
+    const bool debug  // <- ELIMINA "= false"
 ) { 
     auto tiempo_inicio = std::chrono::high_resolution_clock::now();
     size_t T = tareas.size();
     size_t P = procesadores.size();
+    
+    // Inicializar generador aleatorio para reintentos
+    static random_device rd;
+    static mt19937 gen(rd());
     
     // Identificar procesadores MIST
     unordered_set<int> procesadoresMist;
@@ -674,16 +733,17 @@ Resultado heuristicaGreedy(
         }
     }
 
-    MostrarProcesadoresMist(procesadoresMist, debug);
+    if (debug) MostrarProcesadoresMist(procesadoresMist, debug);
     
-
     // 1. INICIALIZACIÓN
     vector<vector<int>> Delta = GenerarMatrizDelta(comunicaciones, P);
-    MostrarMatriz(Delta, P, debug);
+    if (debug) MostrarMatriz(Delta, P, debug);
     
     auto [sucesorAPredecesores, predecesorASucesores] = procesarPrecedenciasFuertes(precedencias);
-    MostrarPredecesoresSucesores(sucesorAPredecesores, false, debug);
-    MostrarPredecesoresSucesores(predecesorASucesores, true, debug);
+    if (debug) {
+        MostrarPredecesoresSucesores(sucesorAPredecesores, false, debug);
+        MostrarPredecesoresSucesores(predecesorASucesores, true, debug);
+    }
     
     // 2. PREPARAR ESTRUCTURAS DE DATOS     
     vector<bool> asignado(T, false);
@@ -703,7 +763,7 @@ Resultado heuristicaGreedy(
         }
     }
 
-    MostrarEstadoProcesadores(procesadores, memLibre, uLibre, costosProcesador, tiempoDisponible, "ESTADO INICIAL PROCESADORES", debug);
+    if (debug) MostrarEstadoProcesadores(procesadores, memLibre, uLibre, costosProcesador, tiempoDisponible, "ESTADO INICIAL PROCESADORES", debug);
 
     // 3. ASIGNAR TAREAS MIST
     Resultado resultadoMist = AsignacionTareasMist(tareas, sucesorAPredecesores, P,
@@ -711,7 +771,7 @@ Resultado heuristicaGreedy(
                                                    tiempoDisponible, s, f, cost, costosProcesador, debug);
     
     if (!resultadoMist.factible) {
-        if (debug) {cout << "\033[91m[ERROR] Falló la asignación de tareas MIST\033[0m" << endl;}
+        if (debug) cout << "\033[91m[ERROR] Falló la asignación de tareas MIST\033[0m" << endl;
         Resultado resultado_fallo;
         resultado_fallo.factible = false;
         resultado_fallo.total_delays = 0.0;
@@ -723,43 +783,60 @@ Resultado heuristicaGreedy(
     f = resultadoMist.f;
     cost = resultadoMist.cost;
     
-    MostrarEstadoProcesadores(procesadores, memLibre, uLibre, costosProcesador, tiempoDisponible, "ESTADO DESPUÉS DE ASIGNAR MIST", debug);
+    if (debug) MostrarEstadoProcesadores(procesadores, memLibre, uLibre, costosProcesador, tiempoDisponible, "ESTADO DESPUÉS DE ASIGNAR MIST", debug);
     
     // 4. PREPARAR PARA BUCLE GREEDY
     vector<int> predPendientes = CalcularPredPendientes(T, sucesorAPredecesores, asignado, predecesorASucesores);
     vector<int> ready = InicializarReadyQueue(T, asignado, predPendientes);
     
-    if(debug) {
+    if (debug) {
         cout << "\033[95m=========================================\033[0m" << endl;
         cout << "\033[95m            TAREAS EN LA COLA            \033[0m" << endl;
         cout << "\033[95m=========================================\033[0m" << endl;
-    }
-    
-    if (debug) {MostrarReadyQueue(ready, tareas);}  
+        MostrarReadyQueue(ready, tareas);
+    }  
     
     // 5. BUCLE GREEDY PRINCIPAL
     while (!ready.empty()) {
-        if(debug) {
+        if (debug) {
             cout << "\033[95m=========================================\033[0m" << endl;
             cout << "\033[95m     SELECCION DEL MEJOR PROCESADOR      \033[0m" << endl;
             cout << "\033[95m=========================================\033[0m" << endl;
         }
 
-        // Ordenar por deadline más corto
-        sort(ready.begin(), ready.end(),
-             [&](int a, int b) { return tareas[a].D < tareas[b].D; });
+        int tarea_actual;
         
-        int tarea_actual = ready.front();
-        ready.erase(ready.begin());
+        if (usar_seleccion_aleatoria && ready.size() > 1) {
+            // Selección aleatoria para reintentos
+            uniform_int_distribution<> dist(0, ready.size() - 1);
+            int indice_aleatorio = dist(gen);
+            tarea_actual = ready[indice_aleatorio];
+            ready.erase(ready.begin() + indice_aleatorio);
+            
+            if (debug) {
+                cout << "  [ALEATORIO] Seleccionada T" << tarea_actual 
+                     << " de " << ready.size() + 1 << " tareas disponibles" << endl;
+            }
+        } else {
+            // Ordenar por deadline más corto (comportamiento original)
+            sort(ready.begin(), ready.end(),
+                 [&](int a, int b) { return tareas[a].D < tareas[b].D; });
+            
+            tarea_actual = ready.front();
+            ready.erase(ready.begin());
+            
+            if (debug) {
+                cout << "  [GREEDY] Seleccionada T" << tarea_actual 
+                     << " (deadline más corto: " << tareas[tarea_actual].D << ")" << endl;
+            }
+        }
         
         // Determinar procesadores a considerar
         vector<int> procesadoresAConsiderar;
         
         if (tareas[tarea_actual].ProcAss > 0) {
             procesadoresAConsiderar.push_back(tareas[tarea_actual].ProcAss);
-            if(debug) {
-                cout << "  [MIST] Solo puede ir al P" << tareas[tarea_actual].ProcAss << endl;
-            }
+            if (debug) cout << "  [MIST] Solo puede ir al P" << tareas[tarea_actual].ProcAss << endl;
         } else {
             for (const auto& p : procesadores) {
                 if (procesadoresMist.find(p.id) == procesadoresMist.end()) {
@@ -791,7 +868,7 @@ Resultado heuristicaGreedy(
         );
         
         if (mejorProcesador == -1) {
-            if (debug) {cout << "\033[91m[ERROR] T" << tarea_actual << " no asignable a ningún procesador\033[0m" << endl;}
+            if (debug) cout << "\033[91m[ERROR] T" << tarea_actual << " no asignable a ningún procesador\033[0m" << endl;
             Resultado resultado_fallo;
             resultado_fallo.factible = false;
             resultado_fallo.total_delays = 0.0;
@@ -802,7 +879,7 @@ Resultado heuristicaGreedy(
         asignado[tarea_actual] = true;
         servidor[tarea_actual] = mejorProcesador;
         s[tarea_actual] = inicio_tarea;
-        f[tarea_actual] = fin_tarea;  // Usar el fin calculado
+        f[tarea_actual] = fin_tarea;
         cost[tarea_actual] = costo_tarea;
         delays_acumulados[tarea_actual] = delays_tarea_actual;
         
@@ -810,13 +887,13 @@ Resultado heuristicaGreedy(
         ActualizarRecursos(tarea_actual, mejorProcesador, tareas[tarea_actual], 
                         tiempoDisponible, memLibre, uLibre, inicio_tarea, fin_tarea, debug);
 
-        if(debug){
+        if (debug) {
             cout << "\033[92m[ASIGNADO] T" << tarea_actual << " -> P" << mejorProcesador 
                 << " | Inicio: " << inicio_tarea << " | Fin: " << fin_tarea 
                 << " | Costo/ud: " << costo_tarea 
                 << " | Delays acumulados: " << delays_tarea_actual 
                 << " | Costo total: " << (costo_tarea) << "\033[0m" << endl;
-            }
+        }
         
         // Actualizar ready queue
         ActualizarReadyQueue(tarea_actual, predecesorASucesores, predPendientes, asignado, ready, tareas, debug);
@@ -825,25 +902,20 @@ Resultado heuristicaGreedy(
             cout << "\033[95m=========================================\033[0m" << endl;
             cout << "\033[95m            TAREAS EN LA COLA            \033[0m" << endl;
             cout << "\033[95m=========================================\033[0m" << endl;
-
             MostrarReadyQueue(ready, tareas);
         }
-
-        
     }
     
     // 6. VERIFICAR ASIGNACIÓN COMPLETA
     for (size_t i = 0; i < T; i++) {
         if (!asignado[i]) {
-            if (debug) {cout << "\033[91m[ERROR] T" << i << " no fue asignada\033[0m" << endl;}
+            if (debug) cout << "\033[91m[ERROR] T" << i << " no fue asignada\033[0m" << endl;
             Resultado resultado_fallo;
             resultado_fallo.factible = false;
             resultado_fallo.total_delays = 0.0;
             return resultado_fallo;
         }
     }
-
-    
     
     // 7. CALCULAR SUMA TOTAL DE DELAYS
     double total_delays = 0.0;
@@ -856,10 +928,9 @@ Resultado heuristicaGreedy(
     auto tiempo_fin = std::chrono::high_resolution_clock::now();
     auto duracion = std::chrono::duration_cast<std::chrono::microseconds>(tiempo_fin - tiempo_inicio);
     
-    double tiempo_segundos = duracion.count() / 1000000.0;
     double tiempo_milisegundos = duracion.count() / 1000.0;
 
-    MostrarAsignacionFinal(T, tareas, servidor, s, f, cost, debug);
+    if (debug) MostrarAsignacionFinal(T, tareas, servidor, s, f, cost, debug);
     
     // 9. CREAR Y RETORNAR RESULTADO COMPLETO
     Resultado resultado_final;
@@ -870,7 +941,6 @@ Resultado heuristicaGreedy(
     resultado_final.total_delays = total_delays;
     resultado_final.tiempo_ejecucion_ms = tiempo_milisegundos; 
     resultado_final.factible = todasCumplen;
-    
     
     return resultado_final;
 }

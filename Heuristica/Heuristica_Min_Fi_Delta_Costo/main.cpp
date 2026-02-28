@@ -210,9 +210,11 @@ int main(int argc, char* argv[]) {
     }
     
     // Ejecutar heurística
-    auto resultado = heuristicaGreedy(
-        procesadores, tareas, precedencias, comunicaciones, alfa, beta, gamma, debug
-    );
+        int max_intentos = 10; // Número de reintentos cuando no se encuentra solución factible
+        auto resultado = heuristicaGreedyConReintentos(
+            procesadores, tareas, precedencias, comunicaciones, 
+            alfa, beta, gamma, max_intentos, debug
+        );
 
     if (!resultado.factible) {
         if (formatoCSV) {
