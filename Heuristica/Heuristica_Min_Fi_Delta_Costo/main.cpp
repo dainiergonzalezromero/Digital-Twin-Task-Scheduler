@@ -6,6 +6,7 @@
 #include <cstdlib>  // Para atof
 #include <cstring>  // Para strcmp
 #include <fstream>  // Para archivos de salida
+#include <iomanip>  // Para setprecision
 
 #include "datos.h"
 #include "lector.h"
@@ -48,8 +49,26 @@ string extraerStringParametro(const string& param) {
 void mostrarResultadosSimple(const vector<int>& servidor, const vector<int>& s, const vector<int>& f) {
     cout << "Servidor,Inicio,Fin" << endl;
     for (size_t i = 0; i < servidor.size(); i++) {
-        cout  << servidor[i] << "," << s[i] << "," << f[i] << endl;
+        cout << servidor[i] << "," << s[i] << "," << f[i] << endl;
     }
+}
+
+// Función para mostrar resultados de tiempos (para --t)
+void mostrarResultadosTiempos(const Resultado& resultado, const vector<Tarea>& tareas) {
+    // Calcular suma de f y suma de costos
+    int suma_fi = 0;
+    int suma_costo = 0;
+    
+    for (size_t i = 0; i < tareas.size(); i++) {
+        suma_fi += resultado.f[i];
+        suma_costo += resultado.cost[i];
+    }
+    
+    // Mostrar resultados en el formato solicitado
+    cout << fixed << setprecision(3);
+    cout << "Tiempo ejecucion: " << resultado.tiempo_ejecucion_ms << " ms" << endl;
+    cout << "Suma de f: " << suma_fi << endl;
+    cout << "Suma de costo: " << suma_costo << endl;
 }
 
 // Función para generar archivo CSV
@@ -80,9 +99,10 @@ void mostrarAyuda(const char* nombrePrograma) {
     cout << "=========================================\n\n";
     cout << "Uso: " << nombrePrograma << " <archivo_instancia> [OPCIONES]\n\n";
     cout << "OPCIONES:\n";
-    cout << "  --alfa=<valor>    Peso para tiempo de finalización (default: 1.0)\n";
+    cout << "  --alpha=<valor>    Peso para tiempo de finalización (default: 1.0)\n";
     cout << "  --beta=<valor>    Peso para delays de comunicación (default: 1.0)\n";
     cout << "  --gamma=<valor>   Peso para costos de procesador (default: 1.0)\n";
+    cout << "  --t               Muestra tiempos de ejecución, suma de f y suma de costo\n";
     cout << "  --debug=<true/false>  Modo de depuración (default: false)\n";
     cout << "  --csv                    Mostrar resultados en formato CSV simple en pantalla\n";
     cout << "  --output=<nombre>, -o=<nombre>  Exportar resultados a archivo CSV\n";
@@ -92,6 +112,7 @@ void mostrarAyuda(const char* nombrePrograma) {
     cout << "  " << nombrePrograma << " instancia.dat\n";
     cout << "  " << nombrePrograma << " instancia.dat --alfa=1.0 --beta=0.5 --gamma=2.0\n";
     cout << "  " << nombrePrograma << " instancia.dat --debug=true --alfa=0.8\n";
+    cout << "  " << nombrePrograma << " instancia.dat --t\n";
     cout << "  " << nombrePrograma << " instancia.dat --csv\n";
     cout << "  " << nombrePrograma << " instancia.dat --output=resultados.csv\n";
     cout << "  " << nombrePrograma << " instancia.dat -o=salida.csv\n";
@@ -119,6 +140,7 @@ int main(int argc, char* argv[]) {
     bool debug = false;  // Modo debug
     bool formatoCSV = false; // Mostrar en formato CSV simple en pantalla
     bool generarCSV = false; // Generar archivo CSV
+    bool mostrarTiempos = false; // Mostrar tiempos de ejecución (--t)
     string nombreArchivoCSV = "salida.csv"; // Nombre por defecto para archivo CSV
     
     // Procesar argumentos
@@ -127,7 +149,7 @@ int main(int argc, char* argv[]) {
     for (int i = 2; i < argc; i++) {
         string arg = argv[i];
         
-        if (arg.find("--alfa=") == 0) {
+        if (arg.find("--alpha=") == 0) {
             alfa = extraerValorParametro(arg);
         } 
         else if (arg.find("--beta=") == 0) {
@@ -135,6 +157,9 @@ int main(int argc, char* argv[]) {
         } 
         else if (arg.find("--gamma=") == 0) {
             gamma = extraerValorParametro(arg);
+        }
+        else if (arg == "--t") {
+            mostrarTiempos = true;
         } 
         else if (arg.find("--debug=") == 0) {
             debug = extraerValorBooleano(arg);
@@ -175,7 +200,7 @@ int main(int argc, char* argv[]) {
     }
     
     // Cargar datos
-    if (debug && !formatoCSV) {
+    if (debug && !formatoCSV && !mostrarTiempos) {
         cout << "[DEBUG] Cargando datos del archivo: " << archivoInstancia << endl;
     }
 
@@ -199,6 +224,8 @@ int main(int argc, char* argv[]) {
                 archivo.close();
             }
             cout << "Solución NO factible - Resultados en: " << nombreArchivoCSV << endl;
+        } else if (mostrarTiempos) {
+            cout << "Solucion NO factible" << endl;
         } else {
             cout << "\n❌ Solución NO factible\n";
         }
@@ -206,7 +233,11 @@ int main(int argc, char* argv[]) {
     }
   
     // Opciones de salida
-    if (formatoCSV) {
+    if (mostrarTiempos) {
+        // Mostrar tiempos de ejecución, suma de f y suma de costo
+        mostrarResultadosTiempos(resultado, tareas);
+    }
+    else if (formatoCSV) {
         // Mostrar en pantalla en formato CSV simple
         mostrarResultadosSimple(resultado.servidor, resultado.s, resultado.f);
     } 
@@ -264,6 +295,10 @@ int main(int argc, char* argv[]) {
         cout << "\nVALOR TOTAL DE LA FUNCIÓN OBJETIVO:\n";
         cout << valor_objetivo_total << endl;
         cout << "=========================================\n";
+        
+        // También mostrar tiempo de ejecución en formato normal
+        cout << "\nTIEMPO DE EJECUCIÓN:\n";
+        cout << fixed << setprecision(3) << resultado.tiempo_ejecucion_ms << " ms\n";
     }
 
     return 0;

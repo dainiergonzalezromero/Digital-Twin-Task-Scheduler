@@ -1,0 +1,713 @@
+[DEBUG] Cargando datos del archivo: datos.dat
+[95m=========================================[0m
+[95m        PROCESADORES MIST IDENTIFICADOS  [0m
+[95m=========================================[0m
+P5 P4 P3 P2 P1 [0m
+[95m=========================================[0m
+[95m             MATRIZ DE DELAYS            [0m
+[95m=========================================[0m
+     [94m   1[0m[94m   2[0m[94m   3[0m[94m   4[0m[94m   5[0m[94m   6[0m[94m   7[0m[94m   8[0m[94m   9[0m
+[94m  1[0m  [90m   0[0m[92m1000[0m[92m1000[0m[92m1000[0m[92m1000[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m   6[0m
+[94m  2[0m  [92m1000[0m[90m   0[0m[92m1000[0m[92m1000[0m[92m1000[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m   6[0m
+[94m  3[0m  [92m1000[0m[92m1000[0m[90m   0[0m[92m1000[0m[92m1000[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m   6[0m
+[94m  4[0m  [92m1000[0m[92m1000[0m[92m1000[0m[90m   0[0m[92m1000[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m   6[0m
+[94m  5[0m  [92m1000[0m[92m1000[0m[92m1000[0m[92m1000[0m[90m   0[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m   6[0m
+[94m  6[0m  [92m   2[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m   2[0m[90m   0[0m[92m1000[0m[92m1000[0m[92m   4[0m
+[94m  7[0m  [92m   2[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m1000[0m[90m   0[0m[92m1000[0m[92m   4[0m
+[94m  8[0m  [92m   2[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m   2[0m[92m1000[0m[92m1000[0m[90m   0[0m[92m   4[0m
+[94m  9[0m  [92m   6[0m[92m   6[0m[92m   6[0m[92m   6[0m[92m   6[0m[92m   4[0m[92m   4[0m[92m   4[0m[90m   0[0m
+[95m=========================================[0m
+[95m        PREDECESORES DE CADA TAREA       [0m
+[95m=========================================[0m
+T4 precede a: [T28]
+T5 precede a: [T1]
+T6 precede a: [T3, T5]
+T7 precede a: [T0, T6]
+T8 precede a: [T0, T6, T7]
+T9 precede a: [T0, T1, T5, T6]
+T10 precede a: [T5, T8]
+T11 precede a: [T1, T7, T8]
+T12 precede a: [T3, T5, T6, T8, T11]
+T13 precede a: [T0, T1, T11]
+T14 precede a: [T0, T1, T3, T10]
+T15 precede a: [T5, T9, T10, T11]
+T16 precede a: [T3, T5, T10, T13, T15]
+T17 precede a: [T0, T3, T5, T7, T8, T12, T15]
+T18 precede a: [T5, T6, T7, T15, T17]
+T19 precede a: [T3, T7, T11, T17]
+T20 precede a: [T1, T3, T5, T16, T18]
+T21 precede a: [T0, T2, T5, T6, T7, T20]
+T22 precede a: [T0, T3, T7, T8, T9, T10, T17, T18, T19]
+T23 precede a: [T2, T9, T13]
+T24 precede a: [T0, T1, T9, T13]
+T25 precede a: [T6, T7, T9, T12, T15, T24]
+T26 precede a: [T5, T9, T10, T11, T13, T14, T20, T24]
+T27 precede a: [T6, T7, T9, T10, T15, T18, T19, T21, T23, T25, T26]
+T28 precede a: [T2, T3, T5, T8, T9, T21, T24, T25, T27]
+T29 precede a: [T3, T6, T7, T9, T12, T15, T17, T20, T25]
+[95m=========================================[0m
+[95m        SUCESORES DE CADA TAREA       [0m
+[95m=========================================[0m
+T0 sucede a: [T7, T8, T9, T13, T14, T17, T21, T22, T24]
+T1 sucede a: [T5, T9, T11, T13, T14, T20, T24]
+T2 sucede a: [T21, T23, T28]
+T3 sucede a: [T6, T12, T14, T16, T17, T19, T20, T22, T28, T29]
+T5 sucede a: [T6, T9, T10, T12, T15, T16, T17, T18, T20, T21, T26, T28]
+T6 sucede a: [T7, T8, T9, T12, T18, T21, T25, T27, T29]
+T7 sucede a: [T8, T11, T17, T18, T19, T21, T22, T25, T27, T29]
+T8 sucede a: [T10, T11, T12, T17, T22, T28]
+T9 sucede a: [T15, T22, T23, T24, T25, T26, T27, T28, T29]
+T10 sucede a: [T14, T15, T16, T22, T26, T27]
+T11 sucede a: [T12, T13, T15, T19, T26]
+T12 sucede a: [T17, T25, T29]
+T13 sucede a: [T16, T23, T24, T26]
+T14 sucede a: [T26]
+T15 sucede a: [T16, T17, T18, T25, T27, T29]
+T16 sucede a: [T20]
+T17 sucede a: [T18, T19, T22, T29]
+T18 sucede a: [T20, T22, T27]
+T19 sucede a: [T22, T27]
+T20 sucede a: [T21, T26, T29]
+T21 sucede a: [T27, T28]
+T23 sucede a: [T27]
+T24 sucede a: [T25, T26, T28]
+T25 sucede a: [T27, T28, T29]
+T26 sucede a: [T27]
+T27 sucede a: [T28]
+T28 sucede a: [T4]
+[95m=========================================[0m
+[95m     ESTADO INICIAL PROCESADORES     [0m
+[95m=========================================[0m
+P1: Mem.Libre = 12	 Uso = 0.500	 Costo = 0	 Tiempo Inicial = 0
+P2: Mem.Libre = 15	 Uso = 0.500	 Costo = 0	 Tiempo Inicial = 0
+P3: Mem.Libre = 12	 Uso = 0.500	 Costo = 0	 Tiempo Inicial = 0
+P4: Mem.Libre = 15	 Uso = 0.500	 Costo = 0	 Tiempo Inicial = 0
+P5: Mem.Libre = 14	 Uso = 0.500	 Costo = 0	 Tiempo Inicial = 0
+P6: Mem.Libre = 134	 Uso = 1.000	 Costo = 15	 Tiempo Inicial = 0
+P7: Mem.Libre = 135	 Uso = 1.000	 Costo = 13	 Tiempo Inicial = 0
+P8: Mem.Libre = 135	 Uso = 1.000	 Costo = 18	 Tiempo Inicial = 0
+P9: Mem.Libre = 2901	 Uso = 1.000	 Costo = 49	 Tiempo Inicial = 0
+[95m=========================================[0m
+[95m        ASIGNANDO TAREAS MIST          [0m
+[95m=========================================[0m
+[92m  [ASIGNADO] T0 -> P1 | Inicio: 0 | Fin: 10 | Mem usada: 5 | Uso: 0.007 | Costo/ud: 0[0m
+[92m  [ASIGNADO] T1 -> P2 | Inicio: 0 | Fin: 7 | Mem usada: 7 | Uso: 0.005 | Costo/ud: 0[0m
+[92m  [ASIGNADO] T2 -> P3 | Inicio: 0 | Fin: 7 | Mem usada: 7 | Uso: 0.005 | Costo/ud: 0[0m
+[92m  [ASIGNADO] T3 -> P4 | Inicio: 0 | Fin: 14 | Mem usada: 9 | Uso: 0.010 | Costo/ud: 0[0m
+[93m  [POSPUESTO] T4 tiene 1 predecesor(es)[0m
+[95m=========================================[0m
+[95m     ESTADO DESPUÉS DE ASIGNAR MIST     [0m
+[95m=========================================[0m
+P1: Mem.Libre = 7	 Uso = 0.493	 Costo = 0	 Tiempo Inicial = 10
+P2: Mem.Libre = 8	 Uso = 0.495	 Costo = 0	 Tiempo Inicial = 7
+P3: Mem.Libre = 5	 Uso = 0.495	 Costo = 0	 Tiempo Inicial = 7
+P4: Mem.Libre = 6	 Uso = 0.490	 Costo = 0	 Tiempo Inicial = 14
+P5: Mem.Libre = 14	 Uso = 0.500	 Costo = 0	 Tiempo Inicial = 0
+P6: Mem.Libre = 134	 Uso = 1.000	 Costo = 15	 Tiempo Inicial = 0
+P7: Mem.Libre = 135	 Uso = 1.000	 Costo = 13	 Tiempo Inicial = 0
+P8: Mem.Libre = 135	 Uso = 1.000	 Costo = 18	 Tiempo Inicial = 0
+P9: Mem.Libre = 2901	 Uso = 1.000	 Costo = 49	 Tiempo Inicial = 0
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 1
+* T5 (D=1344, C=58, M=22)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T5 (D = 1344, C = 58, M = 22, U = 0.043)
+* P6: Mem = 134, Uso = 1.000, Tiempo Inicio = 0, Costo = 15 -> Obj = 67.00 (inicio=9, fin=67, suma de delays=2, costo=15)
+   -> NUEVO MEJOR (valor=67.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> Obj = 67.00 (inicio=9, fin=67, suma de delays=2, costo=13)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 67.00 (inicio=9, fin=67, suma de delays=2, costo=18)
+* P9: Mem = 2901, Uso = 1.000, Tiempo Inicio = 0, Costo = 49 -> Obj = 71.00 (inicio=13, fin=71, suma de delays=6, costo=49)
+[SELECCIONADO] P6 con valor objetivo = 67.00 (inicio=9, fin=67, costo=15, delays=2)
+-> P6 ahora: Tiempo Inicial = 67, Mem Libre = 112, Uso = 0.957
+[92m[ASIGNADO] T5 -> P6 | Inicio: 9 | Fin: 67 | Costo/ud: 15 | Delays acumulados: 2 | Costo total: 15[0m
+[93m[READY+] T6 agregada a ready queue (activada por T5)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 1
+* T6 (D=1344, C=56, M=22)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T6 (D = 1344, C = 56, M = 22, U = 0.042)
+* P6: Mem = 112, Uso = 0.957, Tiempo Inicio = 67, Costo = 15 -> Obj = 123.00 (inicio=67, fin=123, suma de delays=2, costo=15)
+   -> NUEVO MEJOR (valor=123.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> Obj = 1123.00 (inicio=1067, fin=1123, suma de delays=1002, costo=13)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1123.00 (inicio=1067, fin=1123, suma de delays=1002, costo=18)
+* P9: Mem = 2901, Uso = 1.000, Tiempo Inicio = 0, Costo = 49 -> Obj = 127.00 (inicio=71, fin=127, suma de delays=10, costo=49)
+[SELECCIONADO] P6 con valor objetivo = 123.00 (inicio=67, fin=123, costo=15, delays=2)
+-> P6 ahora: Tiempo Inicial = 123, Mem Libre = 90, Uso = 0.915
+[92m[ASIGNADO] T6 -> P6 | Inicio: 67 | Fin: 123 | Costo/ud: 15 | Delays acumulados: 2 | Costo total: 15[0m
+[93m[READY+] T7 agregada a ready queue (activada por T6)[0m
+[93m[READY+] T9 agregada a ready queue (activada por T6)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T7 (D=1344, C=86, M=15)
+* T9 (D=1344, C=96, M=15)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T7 (D = 1344, C = 86, M = 15, U = 0.064)
+* P6: Mem = 90, Uso = 0.915, Tiempo Inicio = 123, Costo = 15 -> Obj = 209.00 (inicio=123, fin=209, suma de delays=2, costo=15)
+   -> NUEVO MEJOR (valor=209.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> Obj = 1209.00 (inicio=1123, fin=1209, suma de delays=1002, costo=13)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1209.00 (inicio=1123, fin=1209, suma de delays=1002, costo=18)
+* P9: Mem = 2901, Uso = 1.000, Tiempo Inicio = 0, Costo = 49 -> Obj = 213.00 (inicio=127, fin=213, suma de delays=10, costo=49)
+[SELECCIONADO] P6 con valor objetivo = 209.00 (inicio=123, fin=209, costo=15, delays=2)
+-> P6 ahora: Tiempo Inicial = 209, Mem Libre = 75, Uso = 0.851
+[92m[ASIGNADO] T7 -> P6 | Inicio: 123 | Fin: 209 | Costo/ud: 15 | Delays acumulados: 2 | Costo total: 15[0m
+[93m[READY+] T8 agregada a ready queue (activada por T7)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T9 (D=1344, C=96, M=15)
+* T8 (D=1344, C=87, M=15)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T9 (D = 1344, C = 96, M = 15, U = 0.071)
+* P6: Mem = 75, Uso = 0.851, Tiempo Inicio = 209, Costo = 15 -> Obj = 305.00 (inicio=209, fin=305, suma de delays=4, costo=15)
+   -> NUEVO MEJOR (valor=305.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> Obj = 1219.00 (inicio=1123, fin=1219, suma de delays=2004, costo=13)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1219.00 (inicio=1123, fin=1219, suma de delays=2004, costo=18)
+* P9: Mem = 2901, Uso = 1.000, Tiempo Inicio = 0, Costo = 49 -> Obj = 223.00 (inicio=127, fin=223, suma de delays=20, costo=49)
+   -> NUEVO MEJOR (valor=223.00)
+[SELECCIONADO] P9 con valor objetivo = 223.00 (inicio=127, fin=223, costo=49, delays=20)
+-> P9 ahora: Tiempo Inicial = 223, Mem Libre = 2886, Uso = 0.929
+[92m[ASIGNADO] T9 -> P9 | Inicio: 127 | Fin: 223 | Costo/ud: 49 | Delays acumulados: 20 | Costo total: 49[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 1
+* T8 (D=1344, C=87, M=15)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T8 (D = 1344, C = 87, M = 15, U = 0.065)
+* P6: Mem = 75, Uso = 0.851, Tiempo Inicio = 209, Costo = 15 -> Obj = 296.00 (inicio=209, fin=296, suma de delays=2, costo=15)
+   -> NUEVO MEJOR (valor=296.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> Obj = 1296.00 (inicio=1209, fin=1296, suma de delays=2002, costo=13)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1296.00 (inicio=1209, fin=1296, suma de delays=2002, costo=18)
+* P9: Mem = 2886, Uso = 0.929, Tiempo Inicio = 223, Costo = 49 -> Obj = 310.00 (inicio=223, fin=310, suma de delays=14, costo=49)
+[SELECCIONADO] P6 con valor objetivo = 296.00 (inicio=209, fin=296, costo=15, delays=2)
+-> P6 ahora: Tiempo Inicial = 296, Mem Libre = 60, Uso = 0.786
+[92m[ASIGNADO] T8 -> P6 | Inicio: 209 | Fin: 296 | Costo/ud: 15 | Delays acumulados: 2 | Costo total: 15[0m
+[93m[READY+] T10 agregada a ready queue (activada por T8)[0m
+[93m[READY+] T11 agregada a ready queue (activada por T8)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T10 (D=1344, C=87, M=18)
+* T11 (D=1344, C=53, M=22)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T10 (D = 1344, C = 87, M = 18, U = 0.065)
+* P6: Mem = 60, Uso = 0.786, Tiempo Inicio = 296, Costo = 15 -> Obj = 383.00 (inicio=296, fin=383, suma de delays=0, costo=15)
+   -> NUEVO MEJOR (valor=383.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> DESCARTADO (Deadline violado: fin=1383 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1383 > deadline=1344)
+* P9: Mem = 2886, Uso = 0.929, Tiempo Inicio = 223, Costo = 49 -> Obj = 387.00 (inicio=300, fin=387, suma de delays=8, costo=49)
+[SELECCIONADO] P6 con valor objetivo = 383.00 (inicio=296, fin=383, costo=15, delays=0)
+-> P6 ahora: Tiempo Inicial = 383, Mem Libre = 42, Uso = 0.722
+[92m[ASIGNADO] T10 -> P6 | Inicio: 296 | Fin: 383 | Costo/ud: 15 | Delays acumulados: 0 | Costo total: 15[0m
+[93m[READY+] T14 agregada a ready queue (activada por T10)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T11 (D=1344, C=53, M=22)
+* T14 (D=1344, C=21, M=22)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T11 (D = 1344, C = 53, M = 22, U = 0.039)
+* P6: Mem = 42, Uso = 0.722, Tiempo Inicio = 383, Costo = 15 -> Obj = 436.00 (inicio=383, fin=436, suma de delays=2, costo=15)
+   -> NUEVO MEJOR (valor=436.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> DESCARTADO (Deadline violado: fin=1349 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1349 > deadline=1344)
+* P9: Mem = 2886, Uso = 0.929, Tiempo Inicio = 223, Costo = 49 -> Obj = 353.00 (inicio=300, fin=353, suma de delays=14, costo=49)
+   -> NUEVO MEJOR (valor=353.00)
+[SELECCIONADO] P9 con valor objetivo = 353.00 (inicio=300, fin=353, costo=49, delays=14)
+-> P9 ahora: Tiempo Inicial = 353, Mem Libre = 2864, Uso = 0.889
+[92m[ASIGNADO] T11 -> P9 | Inicio: 300 | Fin: 353 | Costo/ud: 49 | Delays acumulados: 14 | Costo total: 49[0m
+[93m[READY+] T12 agregada a ready queue (activada por T11)[0m
+[93m[READY+] T13 agregada a ready queue (activada por T11)[0m
+[93m[READY+] T15 agregada a ready queue (activada por T11)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 4
+* T14 (D=1344, C=21, M=22)
+* T12 (D=1344, C=38, M=18)
+* T13 (D=1344, C=91, M=18)
+* T15 (D=1344, C=49, M=20)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T14 (D = 1344, C = 21, M = 22, U = 0.016)
+* P6: Mem = 42, Uso = 0.722, Tiempo Inicio = 383, Costo = 15 -> Obj = 404.00 (inicio=383, fin=404, suma de delays=6, costo=15)
+   -> NUEVO MEJOR (valor=404.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> DESCARTADO (Deadline violado: fin=1404 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1404 > deadline=1344)
+* P9: Mem = 2864, Uso = 0.889, Tiempo Inicio = 353, Costo = 49 -> Obj = 408.00 (inicio=387, fin=408, suma de delays=22, costo=49)
+[SELECCIONADO] P6 con valor objetivo = 404.00 (inicio=383, fin=404, costo=15, delays=6)
+-> P6 ahora: Tiempo Inicial = 404, Mem Libre = 20, Uso = 0.706
+[92m[ASIGNADO] T14 -> P6 | Inicio: 383 | Fin: 404 | Costo/ud: 15 | Delays acumulados: 6 | Costo total: 15[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 3
+* T12 (D=1344, C=38, M=18)
+* T13 (D=1344, C=91, M=18)
+* T15 (D=1344, C=49, M=20)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T12 (D = 1344, C = 38, M = 18, U = 0.028)
+* P6: Mem = 20, Uso = 0.706, Tiempo Inicio = 404, Costo = 15 -> Obj = 442.00 (inicio=404, fin=442, suma de delays=6, costo=15)
+   -> NUEVO MEJOR (valor=442.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> Obj = 1334.00 (inicio=1296, fin=1334, suma de delays=3006, costo=13)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1334.00 (inicio=1296, fin=1334, suma de delays=3006, costo=18)
+* P9: Mem = 2864, Uso = 0.889, Tiempo Inicio = 353, Costo = 49 -> Obj = 391.00 (inicio=353, fin=391, suma de delays=18, costo=49)
+   -> NUEVO MEJOR (valor=391.00)
+[SELECCIONADO] P9 con valor objetivo = 391.00 (inicio=353, fin=391, costo=49, delays=18)
+-> P9 ahora: Tiempo Inicial = 391, Mem Libre = 2846, Uso = 0.861
+[92m[ASIGNADO] T12 -> P9 | Inicio: 353 | Fin: 391 | Costo/ud: 49 | Delays acumulados: 18 | Costo total: 49[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T13 (D=1344, C=91, M=18)
+* T15 (D=1344, C=49, M=20)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T13 (D = 1344, C = 91, M = 18, U = 0.068)
+* P6: Mem = 20, Uso = 0.706, Tiempo Inicio = 404, Costo = 15 -> Obj = 495.00 (inicio=404, fin=495, suma de delays=8, costo=15)
+   -> NUEVO MEJOR (valor=495.00)
+* P7: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 13 -> Obj = 448.00 (inicio=357, fin=448, suma de delays=8, costo=13)
+   -> NUEVO MEJOR (valor=448.00)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 448.00 (inicio=357, fin=448, suma de delays=8, costo=18)
+* P9: Mem = 2846, Uso = 0.861, Tiempo Inicio = 391, Costo = 49 -> Obj = 482.00 (inicio=391, fin=482, suma de delays=12, costo=49)
+[SELECCIONADO] P7 con valor objetivo = 448.00 (inicio=357, fin=448, costo=13, delays=8)
+-> P7 ahora: Tiempo Inicial = 448, Mem Libre = 117, Uso = 0.932
+[92m[ASIGNADO] T13 -> P7 | Inicio: 357 | Fin: 448 | Costo/ud: 13 | Delays acumulados: 8 | Costo total: 13[0m
+[93m[READY+] T23 agregada a ready queue (activada por T13)[0m
+[93m[READY+] T24 agregada a ready queue (activada por T13)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 3
+* T15 (D=1344, C=49, M=20)
+* T23 (D=1344, C=26, M=22)
+* T24 (D=1344, C=11, M=20)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T15 (D = 1344, C = 49, M = 20, U = 0.036)
+* P6: Mem = 20, Uso = 0.706, Tiempo Inicio = 404, Costo = 15 -> Obj = 453.00 (inicio=404, fin=453, suma de delays=8, costo=15)
+   -> NUEVO MEJOR (valor=453.00)
+* P7: Mem = 117, Uso = 0.932, Tiempo Inicio = 448, Costo = 13 -> DESCARTADO (Deadline violado: fin=1432 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1432 > deadline=1344)
+* P9: Mem = 2846, Uso = 0.861, Tiempo Inicio = 391, Costo = 49 -> Obj = 440.00 (inicio=391, fin=440, suma de delays=8, costo=49)
+   -> NUEVO MEJOR (valor=440.00)
+[SELECCIONADO] P9 con valor objetivo = 440.00 (inicio=391, fin=440, costo=49, delays=8)
+-> P9 ahora: Tiempo Inicial = 440, Mem Libre = 2826, Uso = 0.824
+[92m[ASIGNADO] T15 -> P9 | Inicio: 391 | Fin: 440 | Costo/ud: 49 | Delays acumulados: 8 | Costo total: 49[0m
+[93m[READY+] T16 agregada a ready queue (activada por T15)[0m
+[93m[READY+] T17 agregada a ready queue (activada por T15)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 4
+* T23 (D=1344, C=26, M=22)
+* T24 (D=1344, C=11, M=20)
+* T16 (D=1344, C=47, M=15)
+* T17 (D=1344, C=7, M=20)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T23 (D = 1344, C = 26, M = 22, U = 0.019)
+* P6: Mem = 20, Uso = 0.706, Tiempo Inicio = 404, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 117, Uso = 0.932, Tiempo Inicio = 448, Costo = 13 -> Obj = 474.00 (inicio=448, fin=474, suma de delays=6, costo=13)
+   -> NUEVO MEJOR (valor=474.00)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1474 > deadline=1344)
+* P9: Mem = 2826, Uso = 0.824, Tiempo Inicio = 440, Costo = 49 -> Obj = 478.00 (inicio=452, fin=478, suma de delays=10, costo=49)
+[SELECCIONADO] P7 con valor objetivo = 474.00 (inicio=448, fin=474, costo=13, delays=6)
+-> P7 ahora: Tiempo Inicial = 474, Mem Libre = 95, Uso = 0.913
+[92m[ASIGNADO] T23 -> P7 | Inicio: 448 | Fin: 474 | Costo/ud: 13 | Delays acumulados: 6 | Costo total: 13[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 3
+* T24 (D=1344, C=11, M=20)
+* T16 (D=1344, C=47, M=15)
+* T17 (D=1344, C=7, M=20)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T24 (D = 1344, C = 11, M = 20, U = 0.008)
+* P6: Mem = 20, Uso = 0.706, Tiempo Inicio = 404, Costo = 15 -> DESCARTADO (Deadline violado: fin=1459 > deadline=1344)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> Obj = 485.00 (inicio=474, fin=485, suma de delays=8, costo=13)
+   -> NUEVO MEJOR (valor=485.00)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1459 > deadline=1344)
+* P9: Mem = 2826, Uso = 0.824, Tiempo Inicio = 440, Costo = 49 -> Obj = 463.00 (inicio=452, fin=463, suma de delays=16, costo=49)
+   -> NUEVO MEJOR (valor=463.00)
+[SELECCIONADO] P9 con valor objetivo = 463.00 (inicio=452, fin=463, costo=49, delays=16)
+-> P9 ahora: Tiempo Inicial = 463, Mem Libre = 2806, Uso = 0.816
+[92m[ASIGNADO] T24 -> P9 | Inicio: 452 | Fin: 463 | Costo/ud: 49 | Delays acumulados: 16 | Costo total: 49[0m
+[93m[READY+] T25 agregada a ready queue (activada por T24)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 3
+* T16 (D=1344, C=47, M=15)
+* T17 (D=1344, C=7, M=20)
+* T25 (D=1344, C=98, M=18)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T16 (D = 1344, C = 47, M = 15, U = 0.035)
+* P6: Mem = 20, Uso = 0.706, Tiempo Inicio = 404, Costo = 15 -> DESCARTADO (Deadline violado: fin=1495 > deadline=1344)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> DESCARTADO (Deadline violado: fin=1430 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1495 > deadline=1344)
+* P9: Mem = 2806, Uso = 0.816, Tiempo Inicio = 463, Costo = 49 -> Obj = 510.00 (inicio=463, fin=510, suma de delays=18, costo=49)
+   -> NUEVO MEJOR (valor=510.00)
+[SELECCIONADO] P9 con valor objetivo = 510.00 (inicio=463, fin=510, costo=49, delays=18)
+-> P9 ahora: Tiempo Inicial = 510, Mem Libre = 2791, Uso = 0.781
+[92m[ASIGNADO] T16 -> P9 | Inicio: 463 | Fin: 510 | Costo/ud: 49 | Delays acumulados: 18 | Costo total: 49[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T17 (D=1344, C=7, M=20)
+* T25 (D=1344, C=98, M=18)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T17 (D = 1344, C = 7, M = 20, U = 0.005)
+* P6: Mem = 20, Uso = 0.706, Tiempo Inicio = 404, Costo = 15 -> Obj = 451.00 (inicio=444, fin=451, suma de delays=12, costo=15)
+   -> NUEVO MEJOR (valor=451.00)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> Obj = 1303.00 (inicio=1296, fin=1303, suma de delays=3012, costo=13)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1303.00 (inicio=1296, fin=1303, suma de delays=3012, costo=18)
+* P9: Mem = 2791, Uso = 0.781, Tiempo Inicio = 510, Costo = 49 -> Obj = 517.00 (inicio=510, fin=517, suma de delays=24, costo=49)
+[SELECCIONADO] P6 con valor objetivo = 451.00 (inicio=444, fin=451, costo=15, delays=12)
+-> P6 ahora: Tiempo Inicial = 451, Mem Libre = 0, Uso = 0.701
+[92m[ASIGNADO] T17 -> P6 | Inicio: 444 | Fin: 451 | Costo/ud: 15 | Delays acumulados: 12 | Costo total: 15[0m
+[93m[READY+] T18 agregada a ready queue (activada por T17)[0m
+[93m[READY+] T19 agregada a ready queue (activada por T17)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 3
+* T25 (D=1344, C=98, M=18)
+* T18 (D=1344, C=59, M=18)
+* T19 (D=1344, C=51, M=18)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T25 (D = 1344, C = 98, M = 18, U = 0.073)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> Obj = 1307.00 (inicio=1209, fin=1307, suma de delays=2016, costo=13)
+   -> NUEVO MEJOR (valor=1307.00)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1307.00 (inicio=1209, fin=1307, suma de delays=2016, costo=18)
+* P9: Mem = 2791, Uso = 0.781, Tiempo Inicio = 510, Costo = 49 -> Obj = 608.00 (inicio=510, fin=608, suma de delays=8, costo=49)
+   -> NUEVO MEJOR (valor=608.00)
+[SELECCIONADO] P9 con valor objetivo = 608.00 (inicio=510, fin=608, costo=49, delays=8)
+-> P9 ahora: Tiempo Inicial = 608, Mem Libre = 2773, Uso = 0.708
+[92m[ASIGNADO] T25 -> P9 | Inicio: 510 | Fin: 608 | Costo/ud: 49 | Delays acumulados: 8 | Costo total: 49[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T18 (D=1344, C=59, M=18)
+* T19 (D=1344, C=51, M=18)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T18 (D = 1344, C = 59, M = 18, U = 0.044)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> DESCARTADO (Deadline violado: fin=1510 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1510 > deadline=1344)
+* P9: Mem = 2773, Uso = 0.708, Tiempo Inicio = 608, Costo = 49 -> Obj = 667.00 (inicio=608, fin=667, suma de delays=16, costo=49)
+   -> NUEVO MEJOR (valor=667.00)
+[SELECCIONADO] P9 con valor objetivo = 667.00 (inicio=608, fin=667, costo=49, delays=16)
+-> P9 ahora: Tiempo Inicial = 667, Mem Libre = 2755, Uso = 0.664
+[92m[ASIGNADO] T18 -> P9 | Inicio: 608 | Fin: 667 | Costo/ud: 49 | Delays acumulados: 16 | Costo total: 49[0m
+[93m[READY+] T20 agregada a ready queue (activada por T18)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T19 (D=1344, C=51, M=18)
+* T20 (D=1344, C=22, M=18)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T19 (D = 1344, C = 51, M = 18, U = 0.038)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> DESCARTADO (Deadline violado: fin=1502 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1502 > deadline=1344)
+* P9: Mem = 2755, Uso = 0.664, Tiempo Inicio = 667, Costo = 49 -> Obj = 718.00 (inicio=667, fin=718, suma de delays=14, costo=49)
+   -> NUEVO MEJOR (valor=718.00)
+[SELECCIONADO] P9 con valor objetivo = 718.00 (inicio=667, fin=718, costo=49, delays=14)
+-> P9 ahora: Tiempo Inicial = 718, Mem Libre = 2737, Uso = 0.626
+[92m[ASIGNADO] T19 -> P9 | Inicio: 667 | Fin: 718 | Costo/ud: 49 | Delays acumulados: 14 | Costo total: 49[0m
+[93m[READY+] T22 agregada a ready queue (activada por T19)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T20 (D=1344, C=22, M=18)
+* T22 (D=1344, C=24, M=22)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T20 (D = 1344, C = 22, M = 18, U = 0.016)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> Obj = 1089.00 (inicio=1067, fin=1089, suma de delays=1012, costo=13)
+   -> NUEVO MEJOR (valor=1089.00)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1089.00 (inicio=1067, fin=1089, suma de delays=1012, costo=18)
+* P9: Mem = 2737, Uso = 0.626, Tiempo Inicio = 718, Costo = 49 -> Obj = 740.00 (inicio=718, fin=740, suma de delays=16, costo=49)
+   -> NUEVO MEJOR (valor=740.00)
+[SELECCIONADO] P9 con valor objetivo = 740.00 (inicio=718, fin=740, costo=49, delays=16)
+-> P9 ahora: Tiempo Inicial = 740, Mem Libre = 2719, Uso = 0.610
+[92m[ASIGNADO] T20 -> P9 | Inicio: 718 | Fin: 740 | Costo/ud: 49 | Delays acumulados: 16 | Costo total: 49[0m
+[93m[READY+] T21 agregada a ready queue (activada por T20)[0m
+[93m[READY+] T26 agregada a ready queue (activada por T20)[0m
+[93m[READY+] T29 agregada a ready queue (activada por T20)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 4
+* T22 (D=1344, C=24, M=22)
+* T21 (D=1344, C=69, M=20)
+* T26 (D=1344, C=41, M=15)
+* T29 (D=1344, C=90, M=18)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T22 (D = 1344, C = 24, M = 22, U = 0.018)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> DESCARTADO (Deadline violado: fin=1475 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1475 > deadline=1344)
+* P9: Mem = 2719, Uso = 0.610, Tiempo Inicio = 740, Costo = 49 -> Obj = 764.00 (inicio=740, fin=764, suma de delays=28, costo=49)
+   -> NUEVO MEJOR (valor=764.00)
+[SELECCIONADO] P9 con valor objetivo = 764.00 (inicio=740, fin=764, costo=49, delays=28)
+-> P9 ahora: Tiempo Inicial = 764, Mem Libre = 2697, Uso = 0.592
+[92m[ASIGNADO] T22 -> P9 | Inicio: 740 | Fin: 764 | Costo/ud: 49 | Delays acumulados: 28 | Costo total: 49[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 3
+* T21 (D=1344, C=69, M=20)
+* T26 (D=1344, C=41, M=15)
+* T29 (D=1344, C=90, M=18)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T21 (D = 1344, C = 69, M = 20, U = 0.051)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> Obj = 1278.00 (inicio=1209, fin=1278, suma de delays=3008, costo=13)
+   -> NUEVO MEJOR (valor=1278.00)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1278.00 (inicio=1209, fin=1278, suma de delays=3008, costo=18)
+* P9: Mem = 2697, Uso = 0.592, Tiempo Inicio = 764, Costo = 49 -> Obj = 833.00 (inicio=764, fin=833, suma de delays=24, costo=49)
+   -> NUEVO MEJOR (valor=833.00)
+[SELECCIONADO] P9 con valor objetivo = 833.00 (inicio=764, fin=833, costo=49, delays=24)
+-> P9 ahora: Tiempo Inicial = 833, Mem Libre = 2677, Uso = 0.541
+[92m[ASIGNADO] T21 -> P9 | Inicio: 764 | Fin: 833 | Costo/ud: 49 | Delays acumulados: 24 | Costo total: 49[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T26 (D=1344, C=41, M=15)
+* T29 (D=1344, C=90, M=18)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T26 (D = 1344, C = 41, M = 15, U = 0.031)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> DESCARTADO (Deadline violado: fin=1445 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1489 > deadline=1344)
+* P9: Mem = 2677, Uso = 0.541, Tiempo Inicio = 833, Costo = 49 -> Obj = 874.00 (inicio=833, fin=874, suma de delays=16, costo=49)
+   -> NUEVO MEJOR (valor=874.00)
+[SELECCIONADO] P9 con valor objetivo = 874.00 (inicio=833, fin=874, costo=49, delays=16)
+-> P9 ahora: Tiempo Inicial = 874, Mem Libre = 2662, Uso = 0.510
+[92m[ASIGNADO] T26 -> P9 | Inicio: 833 | Fin: 874 | Costo/ud: 49 | Delays acumulados: 16 | Costo total: 49[0m
+[93m[READY+] T27 agregada a ready queue (activada por T26)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 2
+* T29 (D=1344, C=90, M=18)
+* T27 (D=1344, C=11, M=20)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T29 (D = 1344, C = 90, M = 18, U = 0.067)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> DESCARTADO (Deadline violado: fin=1541 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1541 > deadline=1344)
+* P9: Mem = 2662, Uso = 0.510, Tiempo Inicio = 874, Costo = 49 -> Obj = 964.00 (inicio=874, fin=964, suma de delays=18, costo=49)
+   -> NUEVO MEJOR (valor=964.00)
+[SELECCIONADO] P9 con valor objetivo = 964.00 (inicio=874, fin=964, costo=49, delays=18)
+-> P9 ahora: Tiempo Inicial = 964, Mem Libre = 2644, Uso = 0.443
+[92m[ASIGNADO] T29 -> P9 | Inicio: 874 | Fin: 964 | Costo/ud: 49 | Delays acumulados: 18 | Costo total: 49[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 1
+* T27 (D=1344, C=11, M=20)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T27 (D = 1344, C = 11, M = 20, U = 0.008)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> DESCARTADO (Deadline violado: fin=1394 > deadline=1344)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> DESCARTADO (Deadline violado: fin=1485 > deadline=1344)
+* P9: Mem = 2644, Uso = 0.443, Tiempo Inicio = 964, Costo = 49 -> Obj = 975.00 (inicio=964, fin=975, suma de delays=16, costo=49)
+   -> NUEVO MEJOR (valor=975.00)
+[SELECCIONADO] P9 con valor objetivo = 975.00 (inicio=964, fin=975, costo=49, delays=16)
+-> P9 ahora: Tiempo Inicial = 975, Mem Libre = 2624, Uso = 0.435
+[92m[ASIGNADO] T27 -> P9 | Inicio: 964 | Fin: 975 | Costo/ud: 49 | Delays acumulados: 16 | Costo total: 49[0m
+[93m[READY+] T28 agregada a ready queue (activada por T27)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 1
+* T28 (D=1344, C=10, M=15)
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+[PROCESANDO] T28 (D = 1344, C = 10, M = 15, U = 0.007)
+* P6: Mem = 0, Uso = 0.701, Tiempo Inicio = 451, Costo = 15 -> DESCARTADO (Memoria insuficiente)
+* P7: Mem = 95, Uso = 0.913, Tiempo Inicio = 474, Costo = 13 -> Obj = 1306.00 (inicio=1296, fin=1306, suma de delays=2024, costo=13)
+   -> NUEVO MEJOR (valor=1306.00)
+* P8: Mem = 135, Uso = 1.000, Tiempo Inicio = 0, Costo = 18 -> Obj = 1306.00 (inicio=1296, fin=1306, suma de delays=2024, costo=18)
+* P9: Mem = 2624, Uso = 0.435, Tiempo Inicio = 975, Costo = 49 -> Obj = 985.00 (inicio=975, fin=985, suma de delays=20, costo=49)
+   -> NUEVO MEJOR (valor=985.00)
+[SELECCIONADO] P9 con valor objetivo = 985.00 (inicio=975, fin=985, costo=49, delays=20)
+-> P9 ahora: Tiempo Inicial = 985, Mem Libre = 2609, Uso = 0.428
+[92m[ASIGNADO] T28 -> P9 | Inicio: 975 | Fin: 985 | Costo/ud: 49 | Delays acumulados: 20 | Costo total: 49[0m
+[93m[READY+] T4 agregada a ready queue (activada por T28)[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 1
+* T4 (D=1344, C=18, M=4) [MIST al P5]
+[95m=========================================[0m
+[95m     SELECCION DEL MEJOR PROCESADOR      [0m
+[95m=========================================[0m
+  [MIST] Solo puede ir al P5
+[PROCESANDO] T4 (D = 1344, C = 18, M = 4, U = 0.013)
+* P5: Mem = 14, Uso = 0.500, Tiempo Inicio = 0, Costo = 0 -> Obj = 1009.00 (inicio=991, fin=1009, suma de delays=6, costo=0)
+   -> NUEVO MEJOR (valor=1009.00)
+[SELECCIONADO] P5 con valor objetivo = 1009.00 (inicio=991, fin=1009, costo=0, delays=6)
+-> P5 ahora: Tiempo Inicial = 1009, Mem Libre = 10, Uso = 0.487
+[92m[ASIGNADO] T4 -> P5 | Inicio: 991 | Fin: 1009 | Costo/ud: 0 | Delays acumulados: 6 | Costo total: 0[0m
+[95m=========================================[0m
+[95m            TAREAS EN LA COLA            [0m
+[95m=========================================[0m
+Tareas en ready queue: 0
+[92m=========================================[0m
+[92m        ASIGNACIÓN COMPLETADA           [0m
+[92m=========================================[0m
+T0 -> P1 | Inicio: 0 | Fin: 10 | Costo: 0 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T1 -> P2 | Inicio: 0 | Fin: 7 | Costo: 0 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T2 -> P3 | Inicio: 0 | Fin: 7 | Costo: 0 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T3 -> P4 | Inicio: 0 | Fin: 14 | Costo: 0 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T4 -> P5 | Inicio: 991 | Fin: 1009 | Costo: 0 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T5 -> P6 | Inicio: 9 | Fin: 67 | Costo: 15 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T6 -> P6 | Inicio: 67 | Fin: 123 | Costo: 15 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T7 -> P6 | Inicio: 123 | Fin: 209 | Costo: 15 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T8 -> P6 | Inicio: 209 | Fin: 296 | Costo: 15 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T9 -> P9 | Inicio: 127 | Fin: 223 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T10 -> P6 | Inicio: 296 | Fin: 383 | Costo: 15 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T11 -> P9 | Inicio: 300 | Fin: 353 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T12 -> P9 | Inicio: 353 | Fin: 391 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T13 -> P7 | Inicio: 357 | Fin: 448 | Costo: 13 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T14 -> P6 | Inicio: 383 | Fin: 404 | Costo: 15 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T15 -> P9 | Inicio: 391 | Fin: 440 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T16 -> P9 | Inicio: 463 | Fin: 510 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T17 -> P6 | Inicio: 444 | Fin: 451 | Costo: 15 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T18 -> P9 | Inicio: 608 | Fin: 667 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T19 -> P9 | Inicio: 667 | Fin: 718 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T20 -> P9 | Inicio: 718 | Fin: 740 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T21 -> P9 | Inicio: 764 | Fin: 833 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T22 -> P9 | Inicio: 740 | Fin: 764 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T23 -> P7 | Inicio: 448 | Fin: 474 | Costo: 13 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T24 -> P9 | Inicio: 452 | Fin: 463 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T25 -> P9 | Inicio: 510 | Fin: 608 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T26 -> P9 | Inicio: 833 | Fin: 874 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T27 -> P9 | Inicio: 964 | Fin: 975 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T28 -> P9 | Inicio: 975 | Fin: 985 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+T29 -> P9 | Inicio: 874 | Fin: 964 | Costo: 49 | Deadline Abs: 1344 | [92mCUMPLE[0m
+=========================================
+CONFIGURACIÓN DE PARÁMETROS:
+=========================================
+Archivo de instancia: datos.dat
+Alfa  (peso tiempo finalización): 1.000
+Beta  (peso delays comunicación): 0.000
+Gamma (peso costos procesador):   0.000
+Modo debug:                       Activado
+=========================================
+
+
+✅ SOLUCIÓN HEURÍSTICA
+Parámetros: Alfa=1.000, Beta=0.000, Gamma=0.000
+
+TAREAS ASIGNADAS:
+==================================================================
+Task 0: Server P1 | Start: 0 | Finish: 10 | Cost/unit: 0
+Task 1: Server P2 | Start: 0 | Finish: 7 | Cost/unit: 0
+Task 2: Server P3 | Start: 0 | Finish: 7 | Cost/unit: 0
+Task 3: Server P4 | Start: 0 | Finish: 14 | Cost/unit: 0
+Task 4: Server P5 | Start: 991 | Finish: 1009 | Cost/unit: 0
+Task 5: Server P6 | Start: 9 | Finish: 67 | Cost/unit: 15
+Task 6: Server P6 | Start: 67 | Finish: 123 | Cost/unit: 15
+Task 7: Server P6 | Start: 123 | Finish: 209 | Cost/unit: 15
+Task 8: Server P6 | Start: 209 | Finish: 296 | Cost/unit: 15
+Task 9: Server P9 | Start: 127 | Finish: 223 | Cost/unit: 49
+Task 10: Server P6 | Start: 296 | Finish: 383 | Cost/unit: 15
+Task 11: Server P9 | Start: 300 | Finish: 353 | Cost/unit: 49
+Task 12: Server P9 | Start: 353 | Finish: 391 | Cost/unit: 49
+Task 13: Server P7 | Start: 357 | Finish: 448 | Cost/unit: 13
+Task 14: Server P6 | Start: 383 | Finish: 404 | Cost/unit: 15
+Task 15: Server P9 | Start: 391 | Finish: 440 | Cost/unit: 49
+Task 16: Server P9 | Start: 463 | Finish: 510 | Cost/unit: 49
+Task 17: Server P6 | Start: 444 | Finish: 451 | Cost/unit: 15
+Task 18: Server P9 | Start: 608 | Finish: 667 | Cost/unit: 49
+Task 19: Server P9 | Start: 667 | Finish: 718 | Cost/unit: 49
+Task 20: Server P9 | Start: 718 | Finish: 740 | Cost/unit: 49
+Task 21: Server P9 | Start: 764 | Finish: 833 | Cost/unit: 49
+Task 22: Server P9 | Start: 740 | Finish: 764 | Cost/unit: 49
+Task 23: Server P7 | Start: 448 | Finish: 474 | Cost/unit: 13
+Task 24: Server P9 | Start: 452 | Finish: 463 | Cost/unit: 49
+Task 25: Server P9 | Start: 510 | Finish: 608 | Cost/unit: 49
+Task 26: Server P9 | Start: 833 | Finish: 874 | Cost/unit: 49
+Task 27: Server P9 | Start: 964 | Finish: 975 | Cost/unit: 49
+Task 28: Server P9 | Start: 975 | Finish: 985 | Cost/unit: 49
+Task 29: Server P9 | Start: 874 | Finish: 964 | Cost/unit: 49
+
+=========================================
+   COMPONENTES DE LA FUNCIÓN OBJETIVO:
+=========================================
+Alfa * Σf_i = 1.000 * 14410 = 14410.000
+Beta * Σdelays = 0.000 * 316 = 0.000
+Gamma * ΣCost_s = 0.000 * 915 = 0.000
+
+VALOR TOTAL DE LA FUNCIÓN OBJETIVO:
+14410.000
+=========================================
+
+TIEMPO DE EJECUCIÓN:
+22.250 ms
