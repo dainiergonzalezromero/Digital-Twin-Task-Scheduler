@@ -1,0 +1,44 @@
+Resultados exportados a: 10dat_3.csv
+
+✅ SOLUCIÓN HEURÍSTICA GENERADA
+Resultados exportados a: 10dat_3.csv
+=========================================
+CONFIGURACIÓN DE PARÁMETROS:
+=========================================
+Archivo de instancia: dat/10dat_3.dat
+Alfa  (peso tiempo finalización): 1
+Beta  (peso delays comunicación): 0
+Gamma (peso costos procesador):   10
+Modo debug:                       Desactivado
+=========================================
+
+
+✅ SOLUCIÓN HEURÍSTICA
+Parámetros: Alfa=1, Beta=0, Gamma=10
+
+TAREAS ASIGNADAS:
+==================================================================
+Task 0: Server P1 | Start: 0 | Finish: 11 | Cost/unit: 0
+Task 1: Server P2 | Start: 38 | Finish: 59 | Cost/unit: 0
+Task 2: Server P3 | Start: 8 | Finish: 36 | Cost/unit: 15
+Task 3: Server P4 | Start: 0 | Finish: 70 | Cost/unit: 19
+Task 4: Server P4 | Start: 70 | Finish: 119 | Cost/unit: 19
+Task 5: Server P5 | Start: 40 | Finish: 119 | Cost/unit: 49
+Task 6: Server P4 | Start: 119 | Finish: 183 | Cost/unit: 19
+Task 7: Server P5 | Start: 123 | Finish: 212 | Cost/unit: 49
+Task 8: Server P3 | Start: 0 | Finish: 8 | Cost/unit: 15
+Task 9: Server P3 | Start: 36 | Finish: 52 | Cost/unit: 15
+
+=========================================
+   COMPONENTES DE LA FUNCIÓN OBJETIVO:
+=========================================
+Alfa * Σf_i = 1 * 869 = 869
+Beta * Σdelays = 0 * 20 = 0
+Gamma * ΣCost_s = 10 * 200 = 2000
+
+VALOR TOTAL DE LA FUNCIÓN OBJETIVO:
+2869
+=========================================
+
+TIEMPO DE EJECUCIÓN:
+0.046 ms

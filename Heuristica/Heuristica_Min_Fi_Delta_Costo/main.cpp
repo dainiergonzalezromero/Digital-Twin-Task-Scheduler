@@ -44,6 +44,59 @@ string extraerStringParametro(const string& param) {
     }
     return "";
 }
+void MostrarResultados(string archivoInstancia, const Resultado& resultado, 
+                      double alfa, double beta, double gamma, bool debug, const vector<Tarea>& tareas) {
+    // Formato normal (detallado)
+        cout << "=========================================\n";
+        cout << "CONFIGURACIÓN DE PARÁMETROS:\n";
+        cout << "=========================================\n";
+        cout << "Archivo de instancia: " << archivoInstancia << endl;
+        cout << "Alfa  (peso tiempo finalización): " << alfa << endl;
+        cout << "Beta  (peso delays comunicación): " << beta << endl;
+        cout << "Gamma (peso costos procesador):   " << gamma << endl;
+        cout << "Modo debug:                       " << (debug ? "Activado" : "Desactivado") << endl;
+        cout << "=========================================\n\n";
+        
+        // Calcular estadísticas
+        int suma_fi = 0;
+        int suma_costo = 0;
+        
+        cout << "\n✅ SOLUCIÓN HEURÍSTICA\n";
+        cout << "Parámetros: Alfa=" << alfa << ", Beta=" << beta << ", Gamma=" << gamma << "\n";
+        cout << "\nTAREAS ASIGNADAS:\n";
+        cout << "==================================================================\n";
+        
+        for (size_t i = 0; i < tareas.size(); i++) {
+            cout << "Task " << i << ": "
+                 << "Server P" << resultado.servidor[i]
+                 << " | Start: " << resultado.s[i]
+                 << " | Finish: " << resultado.f[i] 
+                 << " | Cost/unit: " << resultado.cost[i] << "\n";
+            suma_fi += resultado.f[i];
+            suma_costo += resultado.cost[i];
+        }
+
+        // Calcular valor de la función objetivo completa
+        double valor_objetivo_total = alfa * suma_fi + 
+                                      beta * resultado.total_delays + 
+                                      gamma * suma_costo;
+        
+        cout << "\n=========================================\n";
+        cout << "   COMPONENTES DE LA FUNCIÓN OBJETIVO:\n";
+        cout << "=========================================\n";
+        cout << "Alfa * Σf_i = " << alfa << " * " << suma_fi << " = " << (alfa * suma_fi) << endl;
+        cout << "Beta * Σdelays = " << beta << " * " << resultado.total_delays << " = " << (beta * resultado.total_delays) << endl;
+        cout << "Gamma * ΣCost_s = " << gamma << " * " << suma_costo << " = " << (gamma * suma_costo) << endl;
+        
+        cout << "\nVALOR TOTAL DE LA FUNCIÓN OBJETIVO:\n";
+        cout << valor_objetivo_total << endl;
+        cout << "=========================================\n";
+        
+        // También mostrar tiempo de ejecución en formato normal
+        cout << "\nTIEMPO DE EJECUCIÓN:\n";
+        cout << fixed << setprecision(3) << resultado.tiempo_ejecucion_ms << " ms\n";
+}
+
 
 // Función para mostrar resultados en formato simple (CSV-like) en pantalla
 void mostrarResultadosSimple(const vector<int>& servidor, const vector<int>& s, const vector<int>& f) {
@@ -210,7 +263,7 @@ int main(int argc, char* argv[]) {
     }
     
     // Ejecutar heurística
-        int max_intentos = 10; // Número de reintentos cuando no se encuentra solución factible
+        int max_intentos = 1000; // Número de reintentos cuando no se encuentra solución factible
         auto resultado = heuristicaGreedyConReintentos(
             procesadores, tareas, precedencias, comunicaciones, 
             alfa, beta, gamma, max_intentos, debug
@@ -250,57 +303,11 @@ int main(int argc, char* argv[]) {
         // También mostrar resumen breve en pantalla
         cout << "\n✅ SOLUCIÓN HEURÍSTICA GENERADA\n";
         cout << "Resultados exportados a: " << nombreArchivoCSV << endl;
+
+        MostrarResultados( archivoInstancia, resultado, alfa,  beta,  gamma, debug, tareas);
     }
     else {
-        // Formato normal (detallado)
-        cout << "=========================================\n";
-        cout << "CONFIGURACIÓN DE PARÁMETROS:\n";
-        cout << "=========================================\n";
-        cout << "Archivo de instancia: " << archivoInstancia << endl;
-        cout << "Alfa  (peso tiempo finalización): " << alfa << endl;
-        cout << "Beta  (peso delays comunicación): " << beta << endl;
-        cout << "Gamma (peso costos procesador):   " << gamma << endl;
-        cout << "Modo debug:                       " << (debug ? "Activado" : "Desactivado") << endl;
-        cout << "=========================================\n\n";
-        
-        // Calcular estadísticas
-        int suma_fi = 0;
-        int suma_costo = 0;
-        
-        cout << "\n✅ SOLUCIÓN HEURÍSTICA\n";
-        cout << "Parámetros: Alfa=" << alfa << ", Beta=" << beta << ", Gamma=" << gamma << "\n";
-        cout << "\nTAREAS ASIGNADAS:\n";
-        cout << "==================================================================\n";
-        
-        for (size_t i = 0; i < tareas.size(); i++) {
-            cout << "Task " << i << ": "
-                 << "Server P" << resultado.servidor[i]
-                 << " | Start: " << resultado.s[i]
-                 << " | Finish: " << resultado.f[i] 
-                 << " | Cost/unit: " << resultado.cost[i] << "\n";
-            suma_fi += resultado.f[i];
-            suma_costo += resultado.cost[i];
-        }
-
-        // Calcular valor de la función objetivo completa
-        double valor_objetivo_total = alfa * suma_fi + 
-                                      beta * resultado.total_delays + 
-                                      gamma * suma_costo;
-        
-        cout << "\n=========================================\n";
-        cout << "   COMPONENTES DE LA FUNCIÓN OBJETIVO:\n";
-        cout << "=========================================\n";
-        cout << "Alfa * Σf_i = " << alfa << " * " << suma_fi << " = " << (alfa * suma_fi) << endl;
-        cout << "Beta * Σdelays = " << beta << " * " << resultado.total_delays << " = " << (beta * resultado.total_delays) << endl;
-        cout << "Gamma * ΣCost_s = " << gamma << " * " << suma_costo << " = " << (gamma * suma_costo) << endl;
-        
-        cout << "\nVALOR TOTAL DE LA FUNCIÓN OBJETIVO:\n";
-        cout << valor_objetivo_total << endl;
-        cout << "=========================================\n";
-        
-        // También mostrar tiempo de ejecución en formato normal
-        cout << "\nTIEMPO DE EJECUCIÓN:\n";
-        cout << fixed << setprecision(3) << resultado.tiempo_ejecucion_ms << " ms\n";
+        MostrarResultados( archivoInstancia, resultado, alfa,  beta,  gamma, debug, tareas);
     }
 
     return 0;

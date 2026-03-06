@@ -1,0 +1,54 @@
+Resultados exportados a: 20dat_5.csv
+
+✅ SOLUCIÓN HEURÍSTICA GENERADA
+Resultados exportados a: 20dat_5.csv
+=========================================
+CONFIGURACIÓN DE PARÁMETROS:
+=========================================
+Archivo de instancia: dat/20dat_5.dat
+Alfa  (peso tiempo finalización): 1
+Beta  (peso delays comunicación): 0
+Gamma (peso costos procesador):   10
+Modo debug:                       Desactivado
+=========================================
+
+
+✅ SOLUCIÓN HEURÍSTICA
+Parámetros: Alfa=1, Beta=0, Gamma=10
+
+TAREAS ASIGNADAS:
+==================================================================
+Task 0: Server P1 | Start: 0 | Finish: 8 | Cost/unit: 0
+Task 1: Server P2 | Start: 0 | Finish: 12 | Cost/unit: 0
+Task 2: Server P3 | Start: 0 | Finish: 9 | Cost/unit: 0
+Task 3: Server P4 | Start: 99 | Finish: 120 | Cost/unit: 0
+Task 4: Server P5 | Start: 0 | Finish: 28 | Cost/unit: 17
+Task 5: Server P5 | Start: 254 | Finish: 341 | Cost/unit: 17
+Task 6: Server P5 | Start: 28 | Finish: 97 | Cost/unit: 17
+Task 7: Server P5 | Start: 97 | Finish: 115 | Cost/unit: 17
+Task 8: Server P5 | Start: 115 | Finish: 199 | Cost/unit: 17
+Task 9: Server P5 | Start: 341 | Finish: 398 | Cost/unit: 17
+Task 10: Server P5 | Start: 199 | Finish: 254 | Cost/unit: 17
+Task 11: Server P5 | Start: 398 | Finish: 480 | Cost/unit: 17
+Task 12: Server P6 | Start: 203 | Finish: 268 | Cost/unit: 41
+Task 13: Server P5 | Start: 480 | Finish: 485 | Cost/unit: 17
+Task 14: Server P5 | Start: 550 | Finish: 611 | Cost/unit: 17
+Task 15: Server P5 | Start: 485 | Finish: 550 | Cost/unit: 17
+Task 16: Server P6 | Start: 615 | Finish: 628 | Cost/unit: 41
+Task 17: Server P5 | Start: 611 | Finish: 664 | Cost/unit: 17
+Task 18: Server P6 | Start: 628 | Finish: 671 | Cost/unit: 41
+Task 19: Server P5 | Start: 664 | Finish: 738 | Cost/unit: 17
+
+=========================================
+   COMPONENTES DE LA FUNCIÓN OBJETIVO:
+=========================================
+Alfa * Σf_i = 1 * 6676 = 6676
+Beta * Σdelays = 0 * 70 = 0
+Gamma * ΣCost_s = 10 * 344 = 3440
+
+VALOR TOTAL DE LA FUNCIÓN OBJETIVO:
+10116
+=========================================
+
+TIEMPO DE EJECUCIÓN:
+0.072 ms
