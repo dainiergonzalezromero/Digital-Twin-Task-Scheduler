@@ -158,17 +158,33 @@ Basic usage:
 
 #### Examples:
 ```bash
-# Run with default parameters
+# Standard execution: runs with default weights (alpha, beta, gamma = 1.0)
 ./scheduler instance.dat
 
-# Run with custom weights (only completion time and processor costs)
+# Selective optimization: ignores communication delays by setting beta to zero
 ./scheduler instance.dat --alpha=1 --beta=0 --gamma=1
 
-# Run with debug mode enabled
+# Development mode: enables verbose logging for algorithm debugging
 ./scheduler instance.dat --alpha=1 --beta=0 --gamma=1 --debug=true
 
-# Run with debug mode disabled
+# Production mode: suppresses debug logs (default behavior)
 ./scheduler instance.dat --alpha=1 --beta=0 --gamma=1 --debug=false
+
+# Performance analysis: displays execution times, Fi summation, and cost metrics
+./scheduler instance.dat --t
+
+# Data formatting: outputs results in CSV format to the standard output (terminal)
+./scheduler instance.dat --csv
+
+# Data persistence: processes the instance and exports results to a specific file
+./scheduler instance.dat --output=results.csv
+
+# Short-hand alias: uses the '-o' flag to define the output destination (alias for --output)
+./scheduler instance.dat -o=output.csv
+
+# Quick export: enables CSV generation using the default filename ('output.csv')
+./scheduler instance.dat --output=true  # Generates 'output.csv'
+
 ```
 
 #### Available Options:
@@ -176,9 +192,11 @@ Basic usage:
 --alpha=<value>    Weight for completion time (default: 1.0)
 --beta=<value>     Weight for communication delays (default: 1.0)
 --gamma=<value>    Weight for processor costs (default: 1.0)
+--t                Display Time Executions, Sum of Fi and Cost
 --debug=<true/false>  Enable/disable debug mode (default: false)
 --csv              Display results in CSV format on screen
 --output=<filename> Export results to CSV file
+--output=true/false  Export results to CSV file
 --help, -h         Display help message
 ```
 
