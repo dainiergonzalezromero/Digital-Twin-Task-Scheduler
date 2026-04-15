@@ -219,13 +219,13 @@ This mirrors the cost term in the MILP formulation.
 In addition to the AMPL implementation, the MILP model is also provided in ZIMPL format to be solved using SCIP (or CPLEX).
 
 ### Files
-`modelo.zpl`: This is the core ZIMPL modeling file. It contains the mathematical formulation of the Mixed-Integer Linear Programming (MILP) model. It defines the sets, parameters (read from the data files), decision variables (such as task-to-processor mapping), and the multi-objective function that balances completion time, operational costs, and communication overhead.
+- `modelo.zpl`: This is the core ZIMPL modeling file. It contains the mathematical formulation of the Mixed-Integer Linear Programming (MILP) model. It defines the sets, parameters (read from the data files), decision variables (such as task-to-processor mapping), and the multi-objective function that balances completion time, operational costs, and communication overhead.
 
-`exacto`: A solver command script. It sets the execution environment, including a time limit (18,000 seconds) and the MIP gap tolerance (0.5%). It automates the process of reading the generated .lp file, running the optimization, and exporting the results to resultado.sol.
+- `exacto`: A solver command script. It sets the execution environment, including a time limit (18,000 seconds) and the MIP gap tolerance (0.5%). It automates the process of reading the generated .lp file, running the optimization, and exporting the results to resultado.sol.
 
-`Evalua.sh`: A Bash automation script that manages the entire workflow. It iterates through different test instances (from 10 to 50 tasks), prepares the data files, invokes ZIMPL to compile the model, and triggers the solver for each case.
+- `Evalua.sh`: A Bash automation script that manages the entire workflow. It iterates through different test instances (from 10 to 50 tasks), prepares the data files, invokes ZIMPL to compile the model, and triggers the solver for each case.
 
-`dats/datos.da`: A directory containing the specific problem instances. Each file includes the hardware parameters (memory and processor limits), task requirements (duration, costs), and the precedence matrices used to populate the model.
+- `dats/datos.da`: A directory containing the specific problem instances. Each file includes the hardware parameters (memory and processor limits), task requirements (duration, costs), and the precedence matrices used to populate the model.
 
 ### Execution
 To run the complete set of instances, ensure the script has execution permissions and run:
