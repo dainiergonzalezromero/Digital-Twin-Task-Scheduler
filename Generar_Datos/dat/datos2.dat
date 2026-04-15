@@ -7,7 +7,7 @@ param P := 6;
 
 param alpha := 1;
 param beta  := 0;
-param gamma := 10;
+param gamma := 1;
 param BigM  := 5000;
 
 # =========================

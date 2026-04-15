@@ -61,7 +61,7 @@ void MostrarResultados(string archivoInstancia, const Resultado& resultado,
         int suma_fi = 0;
         int suma_costo = 0;
         
-        cout << "\n✅ SOLUCIÓN HEURÍSTICA 1\n";
+        cout << "\n✅ SOLUCIÓN HEURÍSTICA 2\n";
         cout << "Parámetros: Alfa=" << alfa << ", Beta=" << beta << ", Gamma=" << gamma << "\n";
         cout << "\nTAREAS ASIGNADAS:\n";
         cout << "==================================================================\n";

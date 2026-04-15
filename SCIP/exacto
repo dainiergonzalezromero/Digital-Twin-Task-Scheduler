@@ -1,0 +1,11 @@
+set timelimit 18000
+set mip tolerances mipgap 0.005
+set output writelevel 3
+read prueba.lp
+optimize
+
+display solution variables -
+
+write resultado.sol
+
+quit

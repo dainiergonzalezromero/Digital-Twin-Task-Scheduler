@@ -11,6 +11,8 @@
 #include <tuple>
 #include <chrono>
 #include <random> 
+#include <climits> 
+#include <functional>
 
 using namespace std;
 
@@ -94,6 +96,7 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
     const vector<int>& f,
     const vector<vector<int>>& Delta,
     const unordered_set<int>& procesadoresMist,
+    const map<int, vector<int>>& predecesorASucesores,
     const double alfa, 
     const double beta,
     const double gamma, 
@@ -202,7 +205,7 @@ void MostrarProcesadoresMist(unordered_set<int> procesadoresMist, const bool deb
     cout << "\033[95m=========================================\033[0m"<< endl;
 
     for (int p : procesadoresMist) cout << "P" << p << " ";
-            cout << "\033[0m" << endl;
+    cout << "\033[0m" << endl;
 }
 
 void MostrarPredecesoresSucesores(const map<int, vector<int>>& mapa, bool esSucesor, const bool debug) {
@@ -375,13 +378,13 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
     const vector<int>& f,
     const vector<vector<int>>& Delta,
     const unordered_set<int>& procesadoresMist,
+    const map<int, vector<int>>& predecesorASucesores,
     const double alfa, 
     const double beta,
     const double gamma, 
     const bool debug
 ) {
     
-    const int INF = numeric_limits<int>::max();
     int mejorSrv = -1;
     int mejorFin = 0;
     int mejorInicio = 0;
@@ -390,15 +393,77 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
     
     double mejorValorObjetivo = numeric_limits<double>::max();
     
-    if (debug)
-        {
-            cout << "[PROCESANDO] T" << tarea_id 
-                << " (D = " << tareas[tarea_id].D 
-                << ", C = " << tareas[tarea_id].C 
-                << ", M = " << tareas[tarea_id].M 
-                << ", U = " << fixed << setprecision(3) << (static_cast<double>(tareas[tarea_id].C) / tareas[tarea_id].T)
-                << ")" << endl;
+    // 1. Contar sucesores por precedencia
+    bool tieneSucesores = (predecesorASucesores.find(tarea_id) != predecesorASucesores.end() &&
+                          !predecesorASucesores.at(tarea_id).empty());
+    
+    int descendientesPendientes = 0;
+    if (tieneSucesores) {
+        unordered_set<int> visitados;
+        function<void(int)> contarDescendientes = [&](int tarea) {
+            auto it = predecesorASucesores.find(tarea);
+            if (it != predecesorASucesores.end()) {
+                for (int sucesor : it->second) {
+                    if (visitados.find(sucesor) == visitados.end()) {
+                        visitados.insert(sucesor);
+                        if (!asignado[sucesor]) {
+                            descendientesPendientes++;
+                        }
+                        contarDescendientes(sucesor);
+                    }
+                }
+            }
+        };
+        contarDescendientes(tarea_id);
+    }
+    
+    // 2. Contar tareas pendientes en cada procesador (competencia por recurso)
+    map<int, int> tareasPendientesPorProcesador;
+    for (size_t i = 0; i < tareas.size(); i++) {
+        if (!asignado[i] && i != (size_t)tarea_id) {
+            // Si la tarea tiene procesador fijo MIST
+            if (tareas[i].ProcAss > 0) {
+                tareasPendientesPorProcesador[tareas[i].ProcAss]++;
+            } else {
+                // Si no tiene procesador fijo, considerar todos los procesadores no MIST
+                for (const auto& p : procesadores) {
+                    if (procesadoresMist.find(p.id) == procesadoresMist.end()) {
+                        tareasPendientesPorProcesador[p.id]++;
+                    }
+                }
+            }
         }
+    }
+    
+    // Calcular factor de congestión para cada procesador
+    map<int, double> factorCongestion;
+    for (const auto& p : procesadores) {
+        if (procesadoresMist.find(p.id) == procesadoresMist.end()) {
+            int pendientes = tareasPendientesPorProcesador[p.id];
+            // Normalizar: más de 10 tareas pendientes = congestión máxima
+            factorCongestion[p.id] = min(1.0, pendientes / 10.0);
+        }
+    }
+    
+    if (debug) {
+        cout << "[PROCESANDO] T" << tarea_id 
+            << " (D = " << tareas[tarea_id].D 
+            << ", C = " << tareas[tarea_id].C 
+            << ", M = " << tareas[tarea_id].M 
+            << ", U = " << fixed << setprecision(3) << (static_cast<double>(tareas[tarea_id].C) / tareas[tarea_id].T)
+            << ")";
+        if (tieneSucesores) {
+            cout << " | DESCENDIENTES: " << descendientesPendientes;
+        }
+        cout << endl;
+        
+        // Mostrar congestión de procesadores
+        cout << "  [CONGESTIÓN] ";
+        for (const auto& [p, factor] : factorCongestion) {
+            cout << "P" << p << ":" << fixed << setprecision(2) << factor << " ";
+        }
+        cout << endl;
+    }
     
     for (int srv : procesadoresAConsiderar) {
 
@@ -407,19 +472,17 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
         // Validar restricciones MIST
         if (esTareaMist) {
             if (srv != tareas[tarea_id].ProcAss) {
-                if(debug)
-                    {
-                        cout << "* P" << srv << ": DESCARTADO (tarea MIST solo va a P" 
-                     << tareas[tarea_id].ProcAss << ")" << endl;
-                    }
+                if(debug) {
+                    cout << "* P" << srv << ": DESCARTADO (tarea MIST solo va a P" 
+                         << tareas[tarea_id].ProcAss << ")" << endl;
+                }
                 continue;
             }
         } else {
             if (procesadoresMist.find(srv) != procesadoresMist.end()) {
-                if (debug)
-                    {   
-                        cout << "* P" << srv << ": DESCARTADO (procesador MIST no acepta tareas no MIST)" << endl;
-                    }
+                if (debug) {   
+                    cout << "* P" << srv << ": DESCARTADO (procesador MIST no acepta tareas no MIST)" << endl;
+                }
                 continue;
             }
         }
@@ -428,29 +491,26 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
         double ui = static_cast<double>(tareas[tarea_id].C) / tareas[tarea_id].T;
         int memoriaRequerida = tareas[tarea_id].M;
         
-        if (debug)
-            {   
-                cout << "* P" << srv << ": Mem = " << memLibre[srv] 
-                    << ", Uso = " << fixed << setprecision(3) << uLibre[srv]
-                    << ", Tiempo Inicio = " << tiempoDisponible[srv]
-                    << ", Costo = " << costoActual;
-            }
+        if (debug) {   
+            cout << "* P" << srv << ": Mem = " << memLibre[srv] 
+                << ", Uso = " << fixed << setprecision(3) << uLibre[srv]
+                << ", Tiempo Inicio = " << tiempoDisponible[srv]
+                << ", Costo = " << costoActual;
+        }
         
         // 1. VERIFICAR RESTRICCIONES DE RECURSOS
         if (memLibre[srv] < memoriaRequerida) {
-            if (debug)
-                {
-                    cout << " -> DESCARTADO (Memoria insuficiente)" << endl;
-                }
+            if (debug) {
+                cout << " -> DESCARTADO (Memoria insuficiente)" << endl;
+            }
             continue;
         }
         
         double usoFuturo = uLibre[srv] - ui;
         if (usoFuturo < -1e-9) {
-            if (debug)
-                {
-                    cout << " -> DESCARTADO (Uso excedido)" << endl;
-                }
+            if (debug) {
+                cout << " -> DESCARTADO (Uso excedido)" << endl;
+            }
             continue;
         }
         
@@ -481,10 +541,9 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
         }
         
         if (predecesoresNoAsignados) {
-            if (debug)
-                {
-                    cout << " -> DESCARTADO (Predecesores no asignados)" << endl;
-                }
+            if (debug) {
+                cout << " -> DESCARTADO (Predecesores no asignados)" << endl;
+            }
             continue;
         }
         
@@ -495,22 +554,71 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
         // 4. VERIFICAR DEADLINE ABSOLUTO
         int deadlineAbsoluto = tareas[tarea_id].r + tareas[tarea_id].D;
         if (fin > deadlineAbsoluto) {
-            if (debug)
-                {
-                    cout << " -> DESCARTADO (Deadline violado: fin=" << fin 
-                        << " > deadline=" << deadlineAbsoluto << ")" << endl;
-                }
+            if (debug) {
+                cout << " -> DESCARTADO (Deadline violado: fin=" << fin 
+                    << " > deadline=" << deadlineAbsoluto << ")" << endl;
+            }
             continue;
         }
         
-        // 5. CALCULAR FUNCIÓN OBJETIVO
-        double valorObjetivo = alfa * fin + beta * sumDelays +  gamma * costoActual;
-        if (debug)
-                {
-                    cout << " -> Obj = " << fixed << setprecision(2) << valorObjetivo 
-                         << " (inicio=" << inicio << ", fin=" << fin << ", suma de delays=" << sumDelays 
-                         << ", costo=" << costoActual << ")" << endl;
-                }
+        // 5. CALCULAR FACTORES DE AJUSTE
+        double pesoTotal = 0.0;
+        
+        // Factor por descendientes (precedencia)
+        double pesoDescendientes = 0.0;
+        if (descendientesPendientes > 0) {
+            pesoDescendientes = min(1.0, descendientesPendientes / 20.0);
+            pesoTotal += pesoDescendientes;
+        }
+        
+        // NUEVO: Factor por congestión del procesador actual
+        // Si este procesador está muy congestionado, mover la tarea a otro lado ayuda
+        double factorCongestionActual = factorCongestion[srv];
+        pesoTotal += factorCongestionActual;
+        
+        // NUEVO: Factor por liberar el procesador
+        // Si movemos esta tarea, ¿cuánto liberamos el procesador?
+        double tiempoOcupacion = fin - inicio;
+        double factorLiberacion = min(1.0, tiempoOcupacion / 100.0);
+        pesoTotal += factorLiberacion * 0.5;
+        
+        // Normalizar peso total (máximo ~2.5)
+        pesoTotal = min(2.0, pesoTotal);
+        
+        // Ajustar gamma basado en el peso total
+        double gammaAjustado = gamma;
+        if (pesoTotal > 0) {
+            // Cuanto mayor el peso, menos importante es el costo
+            double factorReduccion = max(0.3, 1.0 - (pesoTotal / 2.0));
+            gammaAjustado = gamma * factorReduccion;
+            
+            if (debug) {
+                cout << "   -> Peso total: " << fixed << setprecision(2) << pesoTotal
+                     << " (descendientes=" << pesoDescendientes 
+                     << ", congestión=" << factorCongestionActual
+                     << ", liberación=" << factorLiberacion << ")";
+                cout << " | Ajuste gamma: " << gamma << " -> " << gammaAjustado << endl;
+            }
+        }
+        
+        double valorObjetivo = alfa * fin + beta * sumDelays + gammaAjustado * costoActual;
+        
+        // Bonus por liberar un procesador congestionado
+        if (factorCongestionActual > 0.5) {
+            double bonusLiberacion = factorCongestionActual * 50.0;
+            valorObjetivo -= alfa * bonusLiberacion;
+            
+            if (debug) {
+                cout << "   -> Bonus liberación: " << fixed << setprecision(2) << bonusLiberacion;
+            }
+        }
+        
+        if (debug) {
+            cout << " -> Obj = " << fixed << setprecision(2) << valorObjetivo 
+                 << " (inicio=" << inicio << ", fin=" << fin 
+                 << ", suma delays=" << sumDelays 
+                 << ", costo=" << costoActual << ")" << endl;
+        }
 
         // 6. COMPARAR CON MEJOR ACTUAL
         if (valorObjetivo < mejorValorObjetivo - 1e-9) {
@@ -520,10 +628,9 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
             mejorSrv = srv;
             mejorCosto = costoActual;
             mejorSumDelays = sumDelays;
-            if (debug)
-                {
-                    cout << "   -> NUEVO MEJOR (valor=" << mejorValorObjetivo << ")" << endl;
-                }
+            if (debug) {
+                cout << "   -> NUEVO MEJOR (valor=" << mejorValorObjetivo << ")" << endl;
+            }
         }
     }
     
@@ -534,16 +641,13 @@ tuple<int, int, int, int, int> SeleccionarMejorProcesador(
              << " (inicio=" << mejorInicio << ", fin=" << mejorFin 
              << ", costo=" << mejorCosto << ", delays=" << mejorSumDelays << ")" << endl;
     } else {
-        if (debug)
-        {
+        if (debug) {
             cout << "[ERROR] Ningún procesador válido para T" << tarea_id << endl;
         }
-        
     }
     
     return make_tuple(mejorSrv, mejorInicio, mejorFin, mejorSumDelays, mejorCosto);
 }
-
 void ActualizarRecursos(int tarea_id, 
                         int procesador_id, 
                         const Tarea& tarea, 
@@ -650,6 +754,7 @@ void MostrarAsignacionFinal(size_t T,
         }
     }
 }
+
 // ==========================
 // HEURÍSTICA PRINCIPAL CON REINTENTOS
 // ==========================
@@ -723,7 +828,7 @@ Resultado heuristicaGreedyInterna(
     const double beta,
     const double gamma, 
     const bool usar_seleccion_aleatoria,
-    const bool debug  // <- ELIMINA "= false"
+    const bool debug
 ) { 
     auto tiempo_inicio = std::chrono::high_resolution_clock::now();
     size_t T = tareas.size();
@@ -853,7 +958,6 @@ Resultado heuristicaGreedyInterna(
             }
         }
         
-        // Seleccionar mejor procesador
         auto [mejorProcesador, inicio_tarea, fin_tarea, delays_tarea_actual, costo_tarea] = SeleccionarMejorProcesador(
             tarea_actual, 
             tareas,
@@ -868,7 +972,8 @@ Resultado heuristicaGreedyInterna(
             servidor, 
             f, 
             Delta,
-            procesadoresMist, 
+            procesadoresMist,
+            predecesorASucesores,
             alfa, 
             beta, 
             gamma, 

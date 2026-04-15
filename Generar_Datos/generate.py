@@ -190,7 +190,7 @@ def Processors_Table(Number_Mist, Number_Edge, Number_Fog, Number_Processors, su
             proc_U.append(1)
             proc_COST.append(np.random.randint(40,50))
     
-    print(f"mem_edge: {mem_edge}", f"mem_fog: {mem_fog}")
+    # print(f"mem_edge: {mem_edge}", f"mem_fog: {mem_fog}")
 
     # Crear el DataFrame con los datos
     Processors = pd.DataFrame({

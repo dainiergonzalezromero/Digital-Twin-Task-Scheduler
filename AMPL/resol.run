@@ -13,9 +13,13 @@ data datos2.dat;
 # -------------------------
 # Mostrar chequeos básicos
 # -------------------------
-print "Tasks =", card(Tasks);
-print "Servers =", card(Servers);
-print "Precedences =", card(PRECEDENCES);
+print "==========================================";
+print "DATOS DE LA INSTANCIA";
+print "==========================================";
+printf "Tasks = %d\n", card(Tasks);
+printf "Servers = %d\n", card(Servers);
+printf "Precedences = %d\n", card(PRECEDENCES);
+print "";
 
 # -------------------------
 # Solver
@@ -27,45 +31,47 @@ option gurobi_options 'outlev=1';
 # Resolver
 # -------------------------
 solve;
-
 # -------------------------
-# MOSTRAR SOLUCIÓN
+# MOSTRAR SOLUCIÓN FORMATEADA
 # -------------------------
 
 print "";
-print "==================================";
-print "SOLUCIÓN - ASIGNACIÓN DE TAREAS";
-print "==================================";
-print "";
+print "TAREAS ASIGNADAS:";
+print "==================================================================";
 
-# Mostrar asignación tarea-servidor
+# Imprimir tareas en formato pedido
 for {i in Tasks} {
     for {srv in Servers: L[i,srv] == 1} {
-        printf "Tarea %2d -> Servidor %2d\n", i, srv;
+        printf "Task %d: Server P%d | Start: %d | Finish: %d | Cost/unit: %.0f\n",
+               i, srv, s[i], f[i], COST[srv];
     }
 }
 
-print "";
-print "==================================";
-print "TIEMPOS DE EJECUCIÓN";
-print "==================================";
-print "";
-
-# Mostrar tiempos de inicio y finalización
-for {i in Tasks} {
-    printf "Tarea %2d: Inicio = %4d, Fin = %4d, Duración = %3d\n", 
-           i, s[i], f[i], C[i];
-}
-
-
+# -------------------------
+# COMPONENTES FUNCIÓN OBJETIVO
+# -------------------------
 
 print "";
-print "==================================";
-print "RESUMEN FINAL";
-print "==================================";
-print "";
+print "=========================================";
+print "   COMPONENTES DE LA FUNCIÓN OBJETIVO:";
+print "=========================================";
 
-printf "Valor de la función objetivo: %f\n", Objective_Function;
-printf "Tiempo total ponderado (alpha): %f\n", alpha * sum {i in Tasks} f[i];
-printf "Delay total ponderado (beta): %f\n", beta * sum {(h,i) in PRECEDENCES, uu in Servers, vu in Servers} psi[h,i,uu,vu] * Delta[uu,vu];
-printf "Costo total ponderado (gamma): %f\n", gamma * sum{i in Tasks, srv in Servers} COST[srv] * L[i,srv];
+param SumFinish;
+let SumFinish := sum {i in Tasks} f[i];
+
+param SumDelay;
+let SumDelay := sum {(h,i) in PRECEDENCES, uu in Servers, vu in Servers} 
+                 psi[h,i,uu,vu] * Delta[uu,vu];
+
+param SumCost;
+let SumCost := sum {i in Tasks, srv in Servers} COST[srv] * L[i,srv];
+
+printf "Alfa * Σf_i = %.3f * %.0f = %.3f\n", alpha, SumFinish, alpha * SumFinish;
+printf "Beta * Σdelays = %.3f * %.3f = %.3f\n", beta, SumDelay, beta * SumDelay;
+printf "Gamma * ΣCost_s = %.3f * %.0f = %.3f\n", gamma, SumCost, gamma * SumCost;
+
+print "";
+print "VALOR TOTAL DE LA FUNCIÓN OBJETIVO:";
+printf "%.3f\n", Objective_Function;
+
+print "=========================================";
