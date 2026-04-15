@@ -1,4 +1,9 @@
-# Digital Twin Task Allocation and Scheduling
+# 🌐 Digital Twin Task Allocation and Scheduling
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![C++](https://img.shields.io/badge/C++-17-blue.svg)]()
+[![Python](https://img.shields.io/badge/Python-3.8+-yellow.svg)]()
+[![Optimization](https://img.shields.io/badge/Optimization-MILP-green.svg)]()
 
 This repository contains the implementation of **exact and heuristic methods** for task allocation and scheduling in a **Digital Twin architecture over a Mist–Edge–Fog-Cloud continuum**, considering **precedence constraints, communication delays, resource limitations, and processing costs**.
 
