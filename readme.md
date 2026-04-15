@@ -1,12 +1,4 @@
 # 🌐 Digital Twin Task Allocation and Scheduling
-<<<<<<< HEAD
-
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![C++](https://img.shields.io/badge/C++-17-blue.svg)]()
-[![Python](https://img.shields.io/badge/Python-3.8+-yellow.svg)]()
-[![Optimization](https://img.shields.io/badge/Optimization-MILP-green.svg)]()
-=======
->>>>>>> d16ddbf (Actualization of Readme.md)
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C++-17-blue.svg)]()
@@ -141,15 +133,15 @@ pip install numpy pandas matplotlib networkx
 
 The scheduling problem is formulated as a **Mixed-Integer Linear Program (MILP)** minimizing:
 
-[
-\min \left(
-\alpha \sum_{i} f_{i}
-+
-\beta \sum_{h,i,u,v} \Delta_{uv},\psi_{hiuv}
-+
-\gamma \sum_{s,i} \mathrm{Cost}*{s},L*{is}
-\right)
-]
+$$
+\min \ \Bigg(
+\alpha \sum_{i} f[i]
+\+\
+\beta \sum_{h,i,u,v} \Delta[u,v]\,\psi[h,i,u,v]
+\+\
+\gamma \sum_{s,i} \mathrm{Cost[s]}\,L[i,s]
+\Bigg)
+$$
 
 ### Where:
 
@@ -175,7 +167,7 @@ The scheduling problem is formulated as a **Mixed-Integer Linear Program (MILP)*
 
 ## 🎯 Optimization Objective
 
-The problem is formulated as a **Mixed-Integer Linear Program (MILP)** with the following objective: 
+The problem is formulated as a **Mixed-Integer Lineagit push origin mainr Program (MILP)** with the following objective: 
 
 $$
 \min \ \Bigg(
