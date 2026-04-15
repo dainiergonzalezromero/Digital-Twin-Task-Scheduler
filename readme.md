@@ -214,25 +214,48 @@ In the heuristic:
 This mirrors the cost term in the MILP formulation.
 
 ---
-
-## ✅  SCIP / ZIMPL Model 
-
----
-
 ## 🧩 SCIP / ZIMPL Formulation
-In addition to the AMPL implementation, the MILP model is also provided in **ZIMPL** format to be solved using **SCIP**.
+---
+In addition to the AMPL implementation, the MILP model is also provided in ZIMPL format to be solved using SCIP (or CPLEX).
 
 ### Files
+`modelo.zpl`: This is the core ZIMPL modeling file. It contains the mathematical formulation of the Mixed-Integer Linear Programming (MILP) model. It defines the sets, parameters (read from the data files), decision variables (such as task-to-processor mapping), and the multi-objective function that balances completion time, operational costs, and communication overhead.
 
-- `modelo.zpl`: ZIMPL formulation of the task allocation and scheduling problem
-- `generada.dat`: Input instance file
-- `paralelo.set`: SCIP configuration for parallel execution
+`exacto`: A solver command script. It sets the execution environment, including a time limit (18,000 seconds) and the MIP gap tolerance (0.5%). It automates the process of reading the generated .lp file, running the optimization, and exporting the results to resultado.sol.
+
+`Evalua.sh`: A Bash automation script that manages the entire workflow. It iterates through different test instances (from 10 to 50 tasks), prepares the data files, invokes ZIMPL to compile the model, and triggers the solver for each case.
+
+`dats/datos.da`: A directory containing the specific problem instances. Each file includes the hardware parameters (memory and processor limits), task requirements (duration, costs), and the precedence matrices used to populate the model.
 
 ### Execution
-
+To run the complete set of instances, ensure the script has execution permissions and run:
 ```bash
+chmod +x Evalua.sh
 ./Evalua.sh > salida.txt
 ```
+
+##  Technical Workflow details
+The execution follows this logical cycle for every instance:
+
+1. **Data Preparation**: `Evalua.sh` takes a specific file from `dats/` and renames it to `instancia.dat`, which is the filename hardcoded in the ZIMPL model.
+
+2. **Model Compilation**: The command `zimpl -o prueba modelo.zpl` is executed, translating the high-level ZIMPL code into a standard Linear Programming format (prueba.lp).
+
+3. **Optimization**: The solver reads the `exacto` script, processes `prueba.lp`, and searches for the optimal solution.
+
+4. **Logging**: All console outputs and solver logs are redirected to `salida.txt` for further analysis.
+
+## Model Features (ZIMPL)
+The model solves a Task Scheduling and Allocation problem with the following constraints:
+
+- **Resource Allocation**: Checks for processor memory limits (`mem`) and utilization capacity (`util`).
+
+- **Precedence & Latency**: Ensures tasks are executed in the correct order, accounting for communication delays between different processors (`precedence_start`).
+
+- **Non-overlapping**: Uses Big-M constraints to ensure a single processor does not execute multiple tasks at the same time.
+
+- **Multi-objective**: Minimizes a weighted sum of total completion time, processor costs, and inter-task communication costs.
+
 
 ## 🔗 Model Consistency
 

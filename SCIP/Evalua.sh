@@ -1,15 +1,128 @@
 #!/bin/bash
 
-echo "Simulacion DT instancias 4 metodos"
+echo "Simulacion DT instancias"
 
 echo "10 tareas"
-cp dats/datos.dat instancia.dat
 
-# Generar el modelo LP
+cp dats/10dat_1.dat instancia.dat
 zimpl -o prueba modelo.zpl
+cplex < exacto
 
-# Ejecutar CPLEX y guardar salida (redirigir a /dev/null para no mostrar)
-cplex < exacto > /dev/null 2>&1
 
-# Formatear los resultados desde resultado.sol
-python3 formatear_resultados.py instancia.dat
+cp dats/10dat_2.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/10dat_3.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/10dat_4.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/10dat_5.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+echo "20 tareas"
+
+cp dats/20dat_1.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/20dat_2.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/20dat_3.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/20dat_4.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/20dat_5.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+echo "30 tareas"
+
+cp dats/30dat_1.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/30dat_2.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/30dat_3.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/30dat_4.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+
+cp dats/30dat_5.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+echo "40 tareas"
+
+cp dats/40dat_1.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+cp dats/40dat_2.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+cp dats/40dat_3.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+cp dats/40dat_4.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+cp dats/40dat_5.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+echo "50 tareas"
+
+cp dats/50dat_1.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+cp dats/50dat_2.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+cp dats/50dat_3.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+cp dats/50dat_4.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
+cp dats/50dat_5.dat instancia.dat
+zimpl -o prueba modelo.zpl
+cplex < exacto
+
