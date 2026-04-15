@@ -1,35 +1,175 @@
 # 🌐 Digital Twin Task Allocation and Scheduling
+<<<<<<< HEAD
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![C++](https://img.shields.io/badge/C++-17-blue.svg)]()
+[![Python](https://img.shields.io/badge/Python-3.8+-yellow.svg)]()
+[![Optimization](https://img.shields.io/badge/Optimization-MILP-green.svg)]()
+=======
+>>>>>>> d16ddbf (Actualization of Readme.md)
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C++-17-blue.svg)]()
 [![Python](https://img.shields.io/badge/Python-3.8+-yellow.svg)]()
 [![Optimization](https://img.shields.io/badge/Optimization-MILP-green.svg)]()
 
-This repository contains the implementation of **exact and heuristic methods** for task allocation and scheduling in a **Digital Twin architecture over a Mist–Edge–Fog-Cloud continuum**, considering **precedence constraints, communication delays, resource limitations, and processing costs**.
+
+> **Exact and heuristic methods** for task allocation and scheduling in a **Digital Twin architecture** across the **Mist–Edge–Fog–Cloud continuum**.
+
+This repository provides an optimization framework for allocating and scheduling interdependent real-time tasks modeled as **Directed Acyclic Graphs (DAGs)** onto heterogeneous computational resources. The approach considers **precedence constraints, communication delays, resource limitations, and processing costs**, enabling fair comparison between **exact MILP formulations** and **scalable heuristic solutions**.
+
+---
+
+## 📑 Table of Contents
+
+- [📌 Problem Overview](#-problem-overview)
+- [🏗️ System Architecture](#️-system-architecture)
+- [✨ Key Features](#-key-features)
+- [🚀 Quick Start](#-quick-start)
+- [🛠️ Requirements](#️-requirements)
+- [🎯 Optimization Objective](#-optimization-objective)
+- [📁 Repository Structure](#-repository-structure)
+- [🎲 Instance Generation](#-instance-generation)
+- [⚡ Heuristic Approach (C++)](#-heuristic-approach-c)
+- [🧮 Exact MILP (AMPL)](#-exact-milp-ampl)
+- [🧩 Exact MILP (SCIP/ZIMPL)](#-exact-milp-scipzimpl)
+- [📊 Example Output](#-example-output)
+- [🧪 Reproducing Experiments](#-reproducing-experiments)
+- [📊 Performance Comparison](#-performance-comparison)
+- [🔗 Model Consistency](#-model-consistency)
+- [📖 Citation](#-citation)
+- [📄 License](#-license)
+- [🤝 Contributing](#-contributing)
+- [📧 Contact](#-contact)
+
+---
 
 ## 📌 Problem Overview
 
-We address the problem of allocating and scheduling a set of interdependent real-time tasks modeled as a **Directed Acyclic Graph (DAG)** onto a heterogeneous set of computational resources distributed across **Mist, Edge,Fog and Cloud layers**.
+We address the allocation and scheduling of interdependent real-time tasks onto computational resources distributed across **Mist, Edge, Fog, and Cloud layers**.
 
-Each task is characterized by:
-- Worst-Case Execution Time (WCET)
-- Period
-- Deadline
-- Release time
-- Memory requirement
-- Optional fixed assignment to a Mist node
+### 🧩 Task Characteristics
+Each task *i* is defined by:
+- **WCET** (Worst-Case Execution Time)
+- **Period** and **Deadline**
+- **Release time**
+- **Memory requirement**
+- **Optional fixed assignment** to a Mist node
 
-Each server is characterized by:
-- CPU capacity
-- Available memory
-- Usage cost
-- Communication delays with other servers
+### 🖥️ Server Characteristics
+Each server *s* provides:
+- **CPU capacity**
+- **Available memory**
+- **Usage cost**
+- **Communication delays** with other servers
 
-The goal is to determine:
+### 🎯 Decision Goals
 1. **Task-to-server allocation**
 2. **Execution order and timing**
 
-while minimizing a multi-objective cost function under strict constraints.
+---
+## 🏗️ System Architecture
+
+The system follows a hierarchical **Mist–Edge–Fog–Cloud continuum**:
+
+| Layer | Characteristics |
+|------|----------------|
+| **Mist** | Local execution, ultra-low latency, limited resources |
+| **Edge** | Near-device processing with moderate resources |
+| **Fog** | Intermediate layer with balanced latency and capacity |
+| **Cloud** | High computational power with higher latency and cost |
+
+> 📌 *Tip:* Including a diagram (e.g., `docs/architecture.png`) can further enhance understanding.
+
+---
+
+## ✨ Key Features
+
+- ✅ **Multi-objective optimization** (completion time, communication delays, and costs)
+- ✅ **Exact MILP formulations** using **AMPL** and **SCIP/ZIMPL**
+- ✅ **Scalable greedy heuristic** implemented in **C++**
+- ✅ **Synthetic instance generator** for benchmarking
+- ✅ **Support for precedence and communication delays**
+- ✅ **Resource-aware scheduling** (CPU and memory)
+- ✅ **CSV export** for result analysis
+- ✅ **Consistent modeling** across all implementations
+
+---
+---
+
+## 🚀 Quick Start
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/dainiergonzalezromero/Digital-Twin-Task-Scheduler.git
+cd Digital-Twin-Task-Scheduler
+
+# 2. Generate a sample instance
+cd Generar_Datos
+python3 generate.py --Tasks=20 --Sensors=5 --Actuators=3 --Edge=2 --Fog=1 --Cloud=1
+
+# 3. Compile and run the heuristic
+cd ../Heuristica/Heuristica_Min_Fi_Delta_Costo
+g++ -std=c++17 -O3 *.cpp -o scheduler
+./scheduler ../../Generar_Datos/dat/datos.dat --t
+```
+
+---
+
+## 🛠️ Requirements
+
+### 🔧 Software
+
+| Tool              | Purpose                    | Version  |
+| ----------------- | -------------------------- | -------- |
+| **Python**        | Instance generation        | ≥ 3.8    |
+| **g++ / clang++** | Heuristic compilation      | C++17    |
+| **AMPL**          | Exact MILP modeling        | Latest   |
+| **Gurobi/CPLEX**  | MILP solver for AMPL       | Optional |
+| **SCIP**          | Open-source solver         | ≥ 8.0    |
+| **ZIMPL**         | Modeling language for SCIP | Latest   |
+
+### 📦 Python Dependencies
+
+```bash
+pip install numpy pandas matplotlib networkx
+```
+
+---
+
+## 🎯 Optimization Objective
+
+The scheduling problem is formulated as a **Mixed-Integer Linear Program (MILP)** minimizing:
+
+[
+\min \left(
+\alpha \sum_{i} f_{i}
++
+\beta \sum_{h,i,u,v} \Delta_{uv},\psi_{hiuv}
++
+\gamma \sum_{s,i} \mathrm{Cost}*{s},L*{is}
+\right)
+]
+
+### Where:
+
+* **α**: Weight for total completion time.
+* **β**: Weight for communication delays.
+* **γ**: Weight for server usage costs.
+* **L[i,s]**: Binary assignment of task *i* to server *s*.
+* **s[i], f[i]**: Start and finish times.
+
+### 📌 Main Constraints
+
+* **Deadlines:** ( f_i \le r_i + D_i )
+* **Non-preemptive execution:** ( f_i = s_i + C_i )
+* **CPU capacity:** ( \sum_i L_{is} u_i \le U_s )
+* **Memory capacity:** ( \sum_i L_{is} M_i \le MEM_s )
+* **Precedence with delays:** ( s_i \ge f_h + \Delta_{uv} )
+* **Unique assignment:** ( \sum_s L_{is} = 1 )
+* **Fixed Mist assignments:** ( L_{is_0} = 1 )
+
+---
 
 ---
 
