@@ -135,11 +135,11 @@ The scheduling problem is formulated as a **Mixed-Integer Linear Program (MILP)*
 
 $$
 \min \ \Bigg(
-\alpha \sum_{i} f_{i}
+\alpha \sum_{i} f[i]]
 \+\
-\beta \sum_{h,i,u,v} \Delta_{uv}\,\psi_{hiuv}
+\beta \sum_{h,i,u,v} \Delta[u,v]\*\psi[h,i,u,v]
 \+\
-\gamma \sum_{s,i} \mathrm{Cost}_{s}\,L_{is}
+\gamma \sum_{s,i} \mathrm{Cost[s]*L[i,s]}
 \Bigg)
 $$
 
