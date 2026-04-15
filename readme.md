@@ -405,8 +405,6 @@ The model solves a Task Scheduling and Allocation problem with the following con
 
 ---
 
----
-
 ## 📊 Example Output
 
 ```plaintext
