@@ -84,6 +84,7 @@ A **greedy heuristic** is also proposed to efficiently approximate the MILP solu
 │ │ ├── visualizador.cpp
 │ │ ├── visualizador.h
 │ │ └── scheduler                   # Compiled executable
+│ │
 │ ├── Heuristica_Min_Fi_Delta_Costo_2/
 │ │ ├── main.cpp                    # Entry point for heuristic version 2
 │ │ ├── heuristica.cpp
