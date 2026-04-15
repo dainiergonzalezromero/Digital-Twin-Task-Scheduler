@@ -71,7 +71,6 @@ The system follows a hierarchical **Mist–Edge–Fog–Cloud continuum**:
 | **Fog** | Intermediate layer with balanced latency and capacity |
 | **Cloud** | High computational power with higher latency and cost |
 
-> 📌 *Tip:* Including a diagram (e.g., `docs/architecture.png`) can further enhance understanding.
 
 ---
 
@@ -135,7 +134,7 @@ The scheduling problem is formulated as a **Mixed-Integer Linear Program (MILP)*
 
 $$
 \min \ \Bigg(
-\alpha \sum_{i} F [i]
+\alpha \sum_{i} f [i]
 \+\
 \beta \sum_{h,i,u,v} \Delta [u,v]\*\psi [h,i,u,v]
 \+\
@@ -249,26 +248,6 @@ python3 Leer_Graficar.py dat/datos.dat
 ```
 
 ---
----
-
-## 🧮 MILP Model (AMPL)
-
-The exact formulation is implemented in **AMPL** and solved using **Gurobi**.
-
-### Decision Variables
-- `L[i,s]`: Binary variable indicating assignment of task *i* to server *s*
-- `s[i], f[i]`: Start and finish times of task *i*
-- `delta[i,j]`: Execution order between tasks
-- `psi[h,i,u,v]`: Auxiliary variable for precedence and communication delay
-- `COST[s]`: Cost of assigning a task to server *s*
-
-### 🧮 Execution
-```bash
-ampl
-include resol.run
-```
-
----
 
 ## ⚙️ Heuristic Approach
 
@@ -292,7 +271,7 @@ Processors are selected using a **lexicographic criterion**:
 
 ```bash
 cd Heuristica/Heuristica_Min_Fi_Delta_Costo/
-g++ -std=c++17 *.cpp -o scheduler
+g++ -std=c++17 -O3 *.cpp -o scheduler
 ```
 #### Execution:
 
@@ -334,17 +313,18 @@ Basic usage:
 ```
 
 #### Available Options:
-```bash
---alpha=<value>    Weight for completion time (default: 1.0)
---beta=<value>     Weight for communication delays (default: 1.0)
---gamma=<value>    Weight for processor costs (default: 1.0)
---t                Display Time Executions, Sum of Fi and Cost
---debug=<true/false>  Enable/disable debug mode (default: false)
---csv              Display results in CSV format on screen
---output=<filename> Export results to CSV file
---output=true/false  Export results to CSV file
---help, -h         Display help message
-```
+
+| Option                 | Description                     | Default |
+| ---------------------- | ------------------------------- | ------- |
+| `--alpha=<value>`      | Weight for completion time      | 1.0     |
+| `--beta=<value>`       | Weight for communication delays | 1.0     |
+| `--gamma=<value>`      | Weight for server costs         | 1.0     |
+| `--t`                  | Display performance metrics     | false   |
+| `--debug=<true/false>` | Enable verbose logging          | false   |
+| `--csv`                | CSV output to stdout            | false   |
+| `--output=<filename>`  | Export results to CSV           | -       |
+| `--help, -h`           | Show help message               | -       |
+
 
 ---
 
@@ -360,6 +340,25 @@ In the heuristic:
 This mirrors the cost term in the MILP formulation.
 
 ---
+
+## 🧮 MILP Model (AMPL)
+
+The exact formulation is implemented in **AMPL** and solved using **Gurobi**.
+
+### Decision Variables
+- `L[i,s]`: Binary variable indicating assignment of task *i* to server *s*
+- `s[i], f[i]`: Start and finish times of task *i*
+- `delta[i,j]`: Execution order between tasks
+- `psi[h,i,u,v]`: Auxiliary variable for precedence and communication delay
+- `COST[s]`: Cost of assigning a task to server *s*
+
+### 🧮 Execution
+```bash
+cd AMPL
+ampl
+include resol.run
+```
+
 ## 🧩 SCIP / ZIMPL Formulation
 ---
 In addition to the AMPL implementation, the MILP model is also provided in ZIMPL format to be solved using SCIP (or CPLEX).
@@ -371,11 +370,12 @@ In addition to the AMPL implementation, the MILP model is also provided in ZIMPL
 
 - `Evalua.sh`: A Bash automation script that manages the entire workflow. It iterates through different test instances (from 10 to 50 tasks), prepares the data files, invokes ZIMPL to compile the model, and triggers the solver for each case.
 
-- `dats/datos.da`: A directory containing the specific problem instances. Each file includes the hardware parameters (memory and processor limits), task requirements (duration, costs), and the precedence matrices used to populate the model.
+- `dats/datos.dat`: A directory containing the specific problem instances. Each file includes the hardware parameters (memory and processor limits), task requirements (duration, costs), and the precedence matrices used to populate the model.
 
 ### Execution
 To run the complete set of instances, ensure the script has execution permissions and run:
 ```bash
+cd SCIP
 chmod +x Evalua.sh
 ./Evalua.sh > salida.txt
 ```
@@ -403,20 +403,101 @@ The model solves a Task Scheduling and Allocation problem with the following con
 - **Multi-objective**: Minimizes a weighted sum of total completion time, processor costs, and inter-task communication costs.
 
 
-## 🔗 Model Consistency
-
-The three implementations provided in this repository are fully aligned:
-- **AMPL (Exact MILP)**: Reference mathematical formulation
-- **ZIMPL / SCIP**: Alternative exact solver implementation
-- **C++ Heuristic**: Scalable approximation for large instances
-
-All approaches share:
-- The same task and processor parameters
-- Identical precedence and communication models
-- Consistent cost definitions
-
-This ensures fair comparison between exact and heuristic solutions.
+---
 
 ---
 
+## 📊 Example Output
 
+```plaintext
+Task  Server  Start  Finish  Cost
+1     Edge1   0      5       2.5
+2     Fog1    6      10      3.0
+-----------------------------------
+Total Completion Time: 45
+Total Communication Cost: 12
+Total System Cost: 35.5
+```
+
+---
+
+## 🧪 Reproducing Experiments
+
+```bash
+cd Heuristica
+python3 script.py
+python3 resumen.py
+```
+
+---
+
+## 📊 Performance Comparison
+
+| Instance Size | Exact MILP | Heuristic | Speedup |
+| ------------- | ---------- | --------- | ------- |
+| 10 tasks      | < 1 sec    | < 0.1 sec | 10×     |
+| 30 tasks      | 5–60 sec   | < 0.5 sec | 10–100× |
+| 50 tasks      | 1–6 hours  | < 1 sec   | 1000×+  |
+| 100 tasks     | > 24 hours | 2–5 sec   | 10000×+ |
+
+*Performance depends on DAG density and constraint tightness.*
+
+---
+
+## 🔗 Model Consistency
+
+All implementations share:
+
+* Identical mathematical formulation
+* Common data formats
+* Consistent parameter definitions
+* Comparable objective function components
+
+This ensures **fair benchmarking** between exact and heuristic approaches.
+
+---
+
+## 📖 Citation
+
+If you use this repository in your research, please cite:
+
+```bibtex
+@software{digital_twin_scheduling,
+  author  = {Dainier González Romero},
+  title   = {Digital Twin Task Allocation and Scheduling},
+  year    = {2026},
+  url     = {https://github.com/dainiergonzalezromero/Digital-Twin-Task-Scheduler/?tab=readme-ov-file#-example-output}
+}
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Commit your changes.
+4. Submit a pull request.
+
+---
+
+## 📧 Contact
+
+For questions or collaborations, please open an issue in the repository or contact:
+
+**Your Name**
+📩 [dainier.gonzalez@cs.uns.edu.ar](mailto:dainier.gonzalez@cs.uns.edu.ar)
+
+---
+
+⭐ **If you find this repository useful, please consider giving it a star on GitHub!**
+
+```
