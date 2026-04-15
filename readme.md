@@ -217,7 +217,7 @@ $$
 └── readme.md                       # Project documentation
 
 ```
-
+---
 ## 🎲 Instance Generation
 
 Synthetic task graphs and system instances are generated using the scripts provided in the `Generar_Datos/` directory.
@@ -491,7 +491,7 @@ Contributions are welcome! Please:
 
 For questions or collaborations, please open an issue in the repository or contact:
 
-**Your Name**
+**Dainier González Romero**
 📩 [dainier.gonzalez@cs.uns.edu.ar](mailto:dainier.gonzalez@cs.uns.edu.ar)
 
 ---
