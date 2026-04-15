@@ -135,11 +135,11 @@ The scheduling problem is formulated as a **Mixed-Integer Linear Program (MILP)*
 
 $$
 \min \ \Bigg(
-\alpha \sum_{i} f[i]]
+\alpha \sum_{i} F [i]
 \+\
-\beta \sum_{h,i,u,v} \Delta[u,v]\*\psi[h,i,u,v]
+\beta \sum_{h,i,u,v} \Delta [u,v]\*\psi [h,i,u,v]
 \+\
-\gamma \sum_{s,i} \mathrm{Cost[s]*L[i,s]}
+\gamma \sum_{s,i} \mathrm{Cost [s]*L [i,s]}
 \Bigg)
 $$
 
@@ -153,34 +153,6 @@ $$
 
 ### 📌 Main Constraints
 
-* **Deadlines:** ( f_i \le r_i + D_i )
-* **Non-preemptive execution:** ( f_i = s_i + C_i )
-* **CPU capacity:** ( \sum_i L_{is} u_i \le U_s )
-* **Memory capacity:** ( \sum_i L_{is} M_i \le MEM_s )
-* **Precedence with delays:** ( s_i \ge f_h + \Delta_{uv} )
-* **Unique assignment:** ( \sum_s L_{is} = 1 )
-* **Fixed Mist assignments:** ( L_{is_0} = 1 )
-
----
-
----
-
-## 🎯 Optimization Objective
-
-The problem is formulated as a **Mixed-Integer Lineagit push origin mainr Program (MILP)** with the following objective: 
-
-$$
-\min \ \Bigg(
-\alpha \sum_{i} f_{i}
-\+\
-\beta \sum_{h,i,u,v} \Delta_{uv}\,\psi_{hiuv}
-\+\
-\gamma \sum_{s,i} \mathrm{Cost}_{s}\,L_{is}
-\Bigg)
-$$
-
-Subject to:
-
 - **Deadline constraints** (for all tasks i):`f[i] <=  r[i] + D[i]`
 - **Non-preemptive execution** (for all tasks i): `f[i] = s[i] + C[i]`
 - **CPU capacity** (for all servers s):`∑L[i,s]*u[i] <= U[s]`
@@ -190,7 +162,6 @@ Subject to:
 - **Fixed assignments to Mist** (if task i is fixed to server s₀): `L[i,s₀] = 1`
 - **Variable domains**: `L[i,s] ∈ {0,1}, s[i] ≥ 0, f[i] ≥ 0, ψ[h,i,u,v] ≥ 0`
 
-A **greedy heuristic** is also proposed to efficiently approximate the MILP solution for larger instances.
 ---
 
 ## 📁 Repository Structure
@@ -248,7 +219,7 @@ A **greedy heuristic** is also proposed to efficiently approximate the MILP solu
 
 ```
 
-## 🧪 Instance Generation
+## 🎲 Instance Generation
 
 Synthetic task graphs and system instances are generated using the scripts provided in the `Generar_Datos/` directory.
 
@@ -258,6 +229,7 @@ Synthetic task graphs and system instances are generated using the scripts provi
 cd Generar_Datos
 python3 generate.py --Tasks=T --Sensors=S --Actuators=A --Edge=E --Fog-F
 ```
+
 The generator creates:
 - Task sets with WCET, deadlines, memory requirements
 - Directed Acyclic Graph (DAG) precedence relations
@@ -269,6 +241,14 @@ Generated instances are stored in Generar_Datos/dat/ and can be used for:
 * AMPL (.dat)
 * SCIP/ZIMPL (.dat)
 * Heuristic execution (plain text format)
+
+### DAG Visualization
+
+```bash
+python3 Leer_Graficar.py dat/datos.dat
+```
+
+---
 ---
 
 ## 🧮 MILP Model (AMPL)
