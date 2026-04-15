@@ -59,26 +59,54 @@ A **greedy heuristic** is also proposed to efficiently approximate the MILP solu
 ## 📁 Repository Structure
 ```
 ├── AMPL/
-│   ├── servers_and_tasks.mod        # MILP model (AMPL)
-│   └── resol.run                    # AMPL run file
+│ ├── servers_and_tasks.mod         # MILP model in AMPL
+│ ├── resol.run                     # AMPL run script
+│ └── datos2.dat                    # Example data instance
+│
 ├── Generar_Datos/
-│   ├── generate.py                  # Synthetic instance generator
-│   ├── Leer_Graficar.py             # Instance visualization
-│   └── dat/                         # Generated instances
+│ ├── generate.py                   # Synthetic instance generator
+│ ├── Leer_Graficar.py              # Instance visualization
+│ └── dat/                          # Generated instances
+│   ├── datos.dat
+│   └── datos2.dat
 │
 ├── Heuristica/
-│   └── Heuristica_Min_Fi_Delta_Costo/
-│       ├── main.cpp
-│       ├── heuristica.cpp
-│       ├── datos.h
-│       ├── lector.cpp
-│       ├── visualizador.cpp
-│       └── instance_*.dat
+│ ├── dats/                         # Benchmark instances of various sizes
+│ │ └── <size>dat_<i>.dat           # e.g., 10dat_1.dat, 100dat_2.dat, etc.
+│ │
+│ ├── Heuristica_Min_Fi_Delta_Costo/
+│ │ ├── main.cpp                    # Entry point for heuristic version 1
+│ │ ├── heuristica.cpp
+│ │ ├── heuristica.h
+│ │ ├── lector.cpp
+│ │ ├── lector.h
+│ │ ├── datos.h
+│ │ ├── visualizador.cpp
+│ │ ├── visualizador.h
+│ │ └── scheduler                   # Compiled executable
+│ ├── Heuristica_Min_Fi_Delta_Costo_2/
+│ │ ├── main.cpp                    # Entry point for heuristic version 2
+│ │ ├── heuristica.cpp
+│ │ ├── heuristica.h
+│ │ ├── lector.cpp
+│ │ ├── lector.h
+│ │ ├── datos.h
+│ │ ├── visualizador.cpp
+│ │ ├── visualizador.h
+│ │ └── scheduler                   # Compiled executable
+│ │
+│ ├── leer_dat.py                   # Utility to read .dat files
+│ ├── resumen.py                    # Results summarization
+│ └── script.py                     # Automation script for experiments
 │
 ├── SCIP/
-│   ├── modelo.zpl                   # MILP model in ZIMPL (SCIP)
-│   ├── evaluacionDT.sh              # Script to run
-│   └── cuadratico                   # SCIP solver configuration
+│ ├── modelo.zpl                    # MILP model in ZIMPL for SCIP
+│ ├── Evalua.sh                     # Script to execute experiments
+│ ├── exacto                        # SCIP solver executable/configuration
+│ └── dats/
+│   └── datos.dat                   # Data instance for SCIP
+│
+└── readme.md                       # Project documentation
 
 ```
 
