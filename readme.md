@@ -231,7 +231,7 @@ In addition to the AMPL implementation, the MILP model is also provided in **ZIM
 ### Execution
 
 ```bash
-scip -s paralelo.set -f modelo.zpl
+./Evalua.sh > salida.txt
 ```
 
 ## 🔗 Model Consistency
